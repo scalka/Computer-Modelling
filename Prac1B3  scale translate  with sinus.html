@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac 1 b 3</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.html"></script> 
+    <script type="text/javascript">
+	
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		//create ball object with radius 10
+		ball = new Ball(10);
+		var xPos = 0; // -3 is where x starts on graph
+		var yPos = 0; //initialise to 0 and equation will be solved for y below
+		var scaleX = 640/3600; // distance want/have for x
+		var scaleY = 480/2; // distance want/have for y
+		var translateX = 0;
+		var translateY = 240;
+
+		//sets up animation loop
+		function animate () {
+			//clears the stage after every iteration of the loop
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			//special animation function - accepts the callback function 'animate'
+			window.requestAnimationFrame(animate, canvas);
+
+			//animate ball object according to the given curve  
+			yPos = Math.sin(xPos * Math.PI/180);
+
+			//sets the x and y coordinates of the ball object using x and y properties from Ball class
+			ball.x = xPos*scaleX + translateX;
+			ball.y = canvasHeight - (yPos*scaleY + translateY) ;
+			//keep it moving by incrementing by 0.1 every frame iteration
+			xPos = xPos + 0.8;
+
+		//draw ball on canvas using draw method from Ball class
+			ball.draw(context);
+		};
+		//call it once to kick it off 
+		//after that it recursively calls itself
+		window.requestAnimationFrame(animate, canvas);
+    });
+		</script>
+	</head>  
+ <body>
+	<header>
+	<h2>1b3</h2>
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>

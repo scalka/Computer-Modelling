@@ -1,0 +1,66 @@
+<!-- iii.	Refer to the plot of the parametric function 
+xPos = Math.cos(tPos);
+yPos = Math.sin(tPos);
+and produce a JavaScript animation of an object moving along this curve with the curve centred at (320,240) and the motion having a radius of 200 in the x-direction while preserving the shape of the curve.  -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac2e3</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.html"></script> 
+    <script type="text/javascript">
+	
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		//create ball object with radius 10
+		ball = new Ball(10);
+		var xPos = 320; // 
+		var yPos = 200; //
+		var tPos =0;
+
+
+		var scaleX = 400/2; // distance want/have for x
+		var scaleY = 400/2; // distance want/have for y 
+
+		var translateX = 320;
+		var translateY = 240;
+
+		//sets up animation loop
+		function animate () {
+			//clears the stage after every iteration of the loop
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			//special animation function - accepts the callback function 'animate'
+			window.requestAnimationFrame(animate, canvas);
+
+			// movement code
+			xPos = Math.cos(tPos);
+			yPos = Math.sin(tPos);
+			// sets x and y coordinates of the ball object using x and y properties from the ball
+			ball.x = xPos * scaleX + translateX;
+			ball.y = canvasHeight - (yPos * scaleY + translateY);
+			//keep it moving
+			tPos = tPos + 0.1;
+		//draw ball on canvas using draw method from Ball class
+			ball.draw(context);
+		};
+		//call it once to kick it off 
+		//after that it recursively calls itself
+		window.requestAnimationFrame(animate, canvas);
+    });
+		</script>
+	</head>  
+ <body>
+	<header>
+	<h2>1b2</h2>
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>
