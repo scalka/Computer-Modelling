@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac3a1</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/arrow.js"></script> 
+    <script type="text/javascript">
+	
+
+
+	$(document).ready(function() {
+		var xMouse;
+		var yMouse;
+
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		// mouse coordinates
+			arrow = new Arrow ();
+			arrow.x = canvasWidth/2;
+			arrow.y = canvasHeight/2;
+			arrow.draw(context);
+		window.onmousemove = function(event){
+			// an arrow object
+
+			var translateX = arrow.x + (arrow.width / 2);
+			var translateY = arrow.y + (arrow.height / 2);
+
+			// mouse coordinates
+			xMouse = event.clientX;
+			yMouse = event.clientY;
+			// dx dy - difference x, y
+			var dx = arrow.x - xMouse;
+			var dy = arrow.y - yMouse;
+			//The atan() method returns the arctangent of a number as a value between -PI/2 and PI/2 radians.
+			var radians = Math.atan2(dx, dy);
+			console.log(radians);
+			context.rotate(radians );
+
+
+		}
+
+
+
+
+		});
+
+		</script>
+	</head>  
+ <body>
+	<header>
+	<h2>prac3a1</h2>
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>
