@@ -1,0 +1,58 @@
+<!-- TODO not ctx.arc but different way of doing it
+should be move to and line to -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac4q1</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.html"></script> 
+    <script type="text/javascript">
+	
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var ctx = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		var xPos = 0;
+		var yPos = 0;
+		var t = 0;
+		var centerX = canvasWidth/2;
+		var centerY = canvasHeight/2;
+		var radius = 100;
+
+		ctx.moveTo(centerX, centerY);
+
+		function animate () {
+			ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+			window.requestAnimationFrame(animate, canvas);
+			// movement code
+			xPos = radius*Math.cos(t*Math.PI/180) ;
+			yPos = radius*Math.sin(t*Math.PI/180) ;
+			console.log(xPos + " " + yPos);
+			ctx.beginPath();
+			// line
+			ctx.lineTo(xPos, yPos);
+			ctx.closePath();
+			//keep it moving
+			t = t + 0.5;
+
+		};
+			ctx.stroke();
+		//call it once to kick it off 
+		//after that it recursively calls itself
+		window.requestAnimationFrame(animate, canvas);
+    });
+		</script>
+	</head>  
+ <body>
+	<header>
+	<h2>1b2</h2>
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>

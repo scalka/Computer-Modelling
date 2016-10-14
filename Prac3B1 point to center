@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>prac3a1</title>
+    <title>prac3b</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="./classes/arrow.js"></script> 
     <script type="text/javascript">
@@ -19,23 +19,17 @@
 			var canvasHeight = canvas.height;
 			// arrow object from arrow class
 			arrow = new Arrow ();
-				// positiong at the center of canvas
-				arrow.x = canvasWidth/2;
-				arrow.y = canvasHeight/2;
-				arrow.draw(context);
 
 			window.onmousemove = function (){
-				// clear canvas each onmousemove
-				context.clearRect(0, 0, canvasWidth, canvasHeight);
 				// mouse coordinates relative to the top left corner of the browser window’s client area
 				xMouse = event.clientX;
 				yMouse = event.clientY;
-				// dx dy - difference between x,y of arrow and x,y of mouse 
-				var dx = xMouse - arrow.x ;
-				var dy = yMouse - arrow.y ;
-				//The atan() method returns the arctangent of a number as a value between -PI/2 and PI/2 radians.
-				//first dy and then dx
-				arrow.rotation = Math.atan2(dy, dx);
+				// positiong where the mouse is 
+				arrow.x = xMouse;
+				arrow.y = yMouse;
+				// clear canvas each onmousemove
+				context.clearRect(0, 0, canvasWidth, canvasHeight);
+				arrow.rotation = Math.atan2(-10, -10);
 				arrow.draw(context);
 			}
 		});
