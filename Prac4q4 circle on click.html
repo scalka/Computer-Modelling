@@ -1,4 +1,4 @@
-<!-- circle -->
+<!-- circle on click  -->
 <!doctype html>
 <html>
   <head>
@@ -17,12 +17,21 @@
 		var canvasHeight = canvas.height;
 		var centerX = canvasWidth/2;
 		var centerY = canvasHeight/2;
-		var radius = 200;
+		var radius = 20;
 		var xPos;
 		var	 yPos;
 		var	 t = 0;
+		var screenX, screenY;
 
-		ctx.translate(centerX, centerY);
+		window.onmousedown = function(event){
+			screenX = event.screenX;
+			screenY = event. screenY;
+			console.log("client x "+screenX+ " client Y: "+ screenY);
+			//window.requestAnimationFrame(animate, canvas);
+			ctx.translate(screenX, screenY);
+			window.requestAnimationFrame(animate, canvas);
+		};
+		
 		function animate () {
 			ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 			window.requestAnimationFrame(animate, canvas);
@@ -32,14 +41,14 @@
 			ctx.lineTo(xPos, yPos);
 
 			//keep it moving
-			t = t + 0.5;
+			t = t + 5;
 
 
 			ctx.stroke();
 		}
 		//call it once to kick it off 
 		//after that it recursively calls itself
-		window.requestAnimationFrame(animate, canvas);
+		
     });
 		</script>
 	</head>  

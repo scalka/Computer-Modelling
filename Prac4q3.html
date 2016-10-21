@@ -1,4 +1,4 @@
-<!-- circle -->
+<!-- diagonal spiral -->
 <!doctype html>
 <html>
   <head>
@@ -17,22 +17,24 @@
 		var canvasHeight = canvas.height;
 		var centerX = canvasWidth/2;
 		var centerY = canvasHeight/2;
-		var radius = 200;
+		var radius = 20;
 		var xPos;
 		var	 yPos;
-		var	 t = 0;
-
-		ctx.translate(centerX, centerY);
+		var	 t = 10;
+		//ctx.translate(centerX, centerY);
 		function animate () {
 			ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 			window.requestAnimationFrame(animate, canvas);
 			// movement code
-			xPos =  radius * Math.cos(t*Math.PI/180) ;
-			yPos =  radius * Math.sin(t*Math.PI/180) ;
+			xPos =  radius * Math.cos(t*Math.PI/180) + t*Math.PI/180;
+			yPos =  radius * Math.sin(t*Math.PI/180) + t*Math.PI/180 ;
+
 			ctx.lineTo(xPos, yPos);
 
 			//keep it moving
-			t = t + 0.5;
+			t = t + 10;
+
+	
 
 
 			ctx.stroke();
