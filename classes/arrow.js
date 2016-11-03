@@ -6,7 +6,8 @@ function Arrow () {
   this.rotation = 0;
 }
 
-Arrow.prototype.draw = function(context) {
+Arrow.prototype.draw = function (context) {
+
 	context.save();
 	context.translate(this.x, this.y);
 	context.rotate(this.rotation);
