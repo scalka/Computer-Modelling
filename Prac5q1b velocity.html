@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>prac 1 b 1</title>
+    <title>prac 5 q 1</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="./classes/ball.html"></script> 
     <script type="text/javascript">
@@ -15,15 +15,16 @@
 		var canvasWidth = canvas.width;
 		var canvasHeight = canvas.height;
 		//create ball object with radius 10
-		ball = new Ball(10);
+		ball = new Ball(20, '#ffff00');
 		var xPos = 0; // -3 is where x starts on graph
 		var yPos = 0; //initialise to 0 and equation will be solved for y below
 		var scaleX = 128; // distance want/have for x
 		var scaleY = 480/45; // distance want/have for y
 		var translateX = 256;
 		var translateY = 480;
-
-		var vx = 20;
+		
+		var vx = 220;
+		var vy = 10;
 
 		//sets up animation loop
 		function animate () {
@@ -33,11 +34,11 @@
 			window.requestAnimationFrame(animate, canvas);
 
 			//animate ball object according to the given curve  
-			// yPos = xPos; 
+			yPos = xPos*vy *vy; 
 
 			//sets the x and y coordinates of the ball object using x and y properties from Ball class
 			ball.x = xPos*vx;
-			ball.y = canvasHeight/2 ;
+			ball.y =  yPos;
 			//keep it moving by incrementing by 0.1 every frame iteration
 			xPos = xPos + 0.01;
 

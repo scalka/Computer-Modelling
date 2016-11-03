@@ -1,0 +1,81 @@
+<!-- Write a script which moves a ball object, given the 
+speed = 5, and direction = 45 degrees 
+Set vx and vy –using the given angle and speed, and the trigonometric functions. 
+Move the x and y position of the ball according to vx and vy (remember that you are adding on the velocity variable at each frame iteration).
+ -->
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac 5 q 2</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.js"></script> 
+    <script type="text/javascript">
+	
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		//create ball object with radius 10
+		ball = new Ball(10, 'red');
+		var xPos1 = 0; 
+		var yPos1 = 40; 
+
+		ball2 = new Ball(20, 'green');
+		xPos2 = 20;
+		yPos2 = 60;
+
+		var angle = 25;
+		var speed = 15;
+
+		var vx = Math.cos(angle*(180/Math.PI)) * speed;
+		var vy = Math.sin(angle*(180/Math.PI)) * speed;
+
+
+
+		//sets up animation loop
+		function animate () {
+			//clears the stage after every iteration of the loop
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			//special animation function - accepts the callback function 'animate'
+			window.requestAnimationFrame(animate, canvas);
+
+			//sets the x and y coordinates of the ball object using x and y properties from Ball class
+			ball.x = xPos1;
+			ball.y =  yPos1;
+			//animate ball object according to the given curve  
+			yPos1 = xPos1*vy *vy; 
+			//keep it moving by incrementing by 0.1 every frame iteration
+			xPos1 = xPos1 + 0.6;
+
+		/*	ball2.x = xPos2;
+			ball2.y = yPos2;
+			yPos2 = yPos2 * vy *vx;
+			xPos2 = xPos2 + 0.6;
+*/
+
+		//draw ball on canvas using draw method from Ball class
+			ball.draw(context);
+			ball2.draw(context);
+		};
+		//call it once to kick it off 
+		//after that it recursively calls itself
+		window.requestAnimationFrame(animate, canvas);
+    });
+		</script>
+	</head>  
+ <body>
+	<header>
+
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>
+
+
