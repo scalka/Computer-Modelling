@@ -1,0 +1,64 @@
+<!-- Examine the plot of the parametric function  
+xPos = (tPos*tPos)/10;
+yPos = Math.pow(tPos, 3)/1000 - 3*tPos + 120 
+(for t =0 to 100) on the attached sheet; if necessary, calculate transformation values (not necessary in this case), and produce a JavaScript animation of an object moving along this curve. -->
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac2e1</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.html"></script> 
+    <script type="text/javascript">
+	
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		//create ball object with radius 10
+		ball = new Ball(10);
+		var xPos = 0; // -3 is where x starts on graph
+		var yPos = 0; //initialise to 0 and equation will be solved for y below
+		var tPos =0;
+
+/*		var scaleX = 640/30; // distance want/have for x
+		var scaleY = 480/1000; // distance want/have for y
+		var translateX = 213;
+		var translateY = 384;*/
+
+		//sets up animation loop
+		function animate () {
+			//clears the stage after every iteration of the loop
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			//special animation function - accepts the callback function 'animate'
+			window.requestAnimationFrame(animate, canvas);
+			// movement code
+			xPos = (tPos*tPos)/10;
+			yPos = Math.pow(tPos, 3)/1000 - 3*tPos + 120
+			// sets x and y coordinates of the ball object using x and y properties from the ball
+			ball.x = xPos;
+			ball.y = canvasHeight - yPos;
+			//keep it moving
+			tPos = tPos + 0.5;
+		//draw ball on canvas using draw method from Ball class
+			ball.draw(context);
+		};
+		//call it once to kick it off 
+		//after that it recursively calls itself
+		window.requestAnimationFrame(animate, canvas);
+    });
+		</script>
+	</head>  
+ <body>
+	<header>
+	<h2>1b2</h2>
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>

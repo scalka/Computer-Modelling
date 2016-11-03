@@ -1,0 +1,72 @@
+<!-- circle on click  -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac4q4</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.html"></script> 
+    <script type="text/javascript">
+	
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var ctx = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		var centerX = 0;
+		var centerY = 0;
+		var radius = 0;
+		var xPos;
+		var	 yPos;
+		var	 t = 0;
+		var screenX, screenY;
+
+		canvas.onmouseup = function(event){
+			//mouse coordinates
+			//offset() method set or returns the offset coordinates for the selected elements, relative to the document.
+			centerX = event.clientX - this.offsetLeft;
+			centerY = event. clientY - this.offsetTop;
+			console.log("client x "+centerX+ " client Y: "+ centerY);
+			//random radius		
+			radius = Math.floor(Math.random()*149)+1;
+			ctx.beginPath();
+			ctx.moveTo((radius * Math.cos(t*Math.PI/180) + centerX), (radius * Math.sin(t*Math.PI/180)+centerY) );
+			// random color
+			ctx.strokeStyle = randomColor();
+			window.requestAnimationFrame(animate, canvas);
+		};
+		
+		function animate () {
+			//ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+			window.requestAnimationFrame(animate, canvas);
+			// movement code
+			xPos =  radius * Math.cos(t*Math.PI/180) + centerX;
+			yPos =  radius * Math.sin(t*Math.PI/180) + centerY ;
+			ctx.lineTo(xPos, yPos);
+			//keep it moving
+			t = t + 5;
+			ctx.stroke();
+		}
+		//random color generator
+		function randomColor() {
+	   		var hex = '0123456789ABCDEF'.split(''),
+        			color = '#', i;
+    		for (i = 0; i < 6 ; i++) {
+        		color = color + hex[Math.floor(Math.random() * 16)];
+    		}
+    		return color;
+		}
+    });
+		</script>
+	</head>  
+ <body>
+	<header>
+	<h2>prac4q4</h2>
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>

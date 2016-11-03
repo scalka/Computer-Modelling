@@ -1,0 +1,50 @@
+<!-- 
+•	clientX and clientY retrieve the x and y coordinates respectively of the mouse pointer, relative to the top left corner of the browser window’s client area. 
+•	pageX and pageY retrieve the x and y coordinates respectively of the mouse pointer, relative to the top left corner of the document. 
+•	screenX and screenY retrieve the x and y coordinates respectively of the mouse pointer, relative to the top left corner of the screen. 
+ -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac2e5 mouse</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript">
+	
+
+		$(document).ready(function(){
+			window.onmousemove = function(event){
+				
+				document.getElementById("clientX").innerHTML = event.clientX;
+				document.getElementById("clientY").innerHTML = event.clientY;
+
+				document.getElementById("pageX").innerHTML = event.pageX;
+				document.getElementById("pageY").innerHTML = event.pageY;
+
+				var screenX = event.screenX;
+				document.getElementById("screenX").innerHTML = screenX;
+
+				document.getElementById("screenY").innerHTML = event.screenY;
+			}
+		});
+
+		</script>
+	</head>  
+ <body>
+	<header>
+	<h2>prac2e5 mouse</h2>
+	</header>
+	<h1>Document that reads mouse movement</h1>
+	<h2>relative to the top left corner of the browser window’s client area</h2>
+	<h2>clientX </h2> <h2 id="clientX"></h2>
+	<h2>clientY </h2> <h2 id="clientY"></h2>
+	<h2>relative to the top left corner of the document</h2>
+	<h2>pageX </h2> <h2 id="pageX"></h2>
+	<h2>pageY </h2> <h2 id="pageY"></h2>
+	<h2>relative to the top left corner of the screen</h2>
+	<h2>screenX </h2> <h2 id="screenX"></h2>
+	<h2>screenY </h2> <h2 id="screenY"></h2>
+
+  </body>
+</html>
+ls

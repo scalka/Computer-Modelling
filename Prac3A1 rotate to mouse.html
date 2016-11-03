@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac3a1</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/arrow.js"></script> 
+    <script type="text/javascript">
+		var xMouse;
+		var yMouse;
+
+		$(document).ready(function() {
+
+			//assign the canvas element  to a variable using the DOM
+			var canvas = document.getElementById("myCanvas");
+			//assign the 2d rendering context (what we draw on) to a variable
+			var context = canvas.getContext("2d");
+			var canvasWidth = canvas.width;
+			var canvasHeight = canvas.height;
+			// arrow object from arrow class
+			arrow = new Arrow ();
+				// positiong at the center of canvas
+				arrow.x = canvasWidth/2;
+				arrow.y = canvasHeight/2;
+				arrow.draw(context);
+
+			window.onmousemove = function (){
+				// clear canvas each onmousemove
+				context.clearRect(0, 0, canvasWidth, canvasHeight);
+				// mouse coordinates relative to the top left corner of the browser window’s client area
+				xMouse = event.clientX;
+				yMouse = event.clientY;
+				// dx dy - difference between x,y of arrow and x,y of mouse 
+				var dx = xMouse - arrow.x ;
+				var dy = yMouse - arrow.y ;
+				//The atan() method returns the arctangent of a number as a value between -PI/2 and PI/2 radians.
+				//first dy and then dx
+				arrow.rotation = Math.atan2(dy, dx);
+				arrow.draw(context);
+			}
+		});
+		
+		</script>
+	</head>  
+ <body>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  </body>
+</html>
