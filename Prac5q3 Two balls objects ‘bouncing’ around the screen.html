@@ -2,6 +2,10 @@
 speed = 5, and direction = 45 degrees 
 Set vx and vy –using the given angle and speed, and the trigonometric functions. 
 Move the x and y position of the ball according to vx and vy (remember that you are adding on the velocity variable at each frame iteration).
+ 
+
+TODO function for collision check
+
  -->
 
 <!doctype html>
@@ -38,6 +42,9 @@ Move the x and y position of the ball according to vx and vy (remember that you 
 		var vx2 = Math.cos(angle2*Math.PI/180) * speed;
 		var vy2 = Math.sin(angle2*Math.PI/180) * speed;
 
+		var collision = false;
+		var textArea = document.getElementById("textArea");
+
 		//sets up animation loop
 		function animate () {
 			context.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -53,19 +60,51 @@ Move the x and y position of the ball according to vx and vy (remember that you 
 			ball2.draw(context);
 			
 		//	collisionTest(ball.x, ball.y, ball.radius, vx1, vy1);
-			console.log(ball.x, ball.y, ball.radius, vx1, vy1);
 
-			if ( ball.x + radius > 640 || ball.x - radius < 0 ) {
+/*
+			if ( ball.x + radius > canvas.width || ball.x - radius < 0 ) {
 				vx1 =- vx1;
-			} else if (ball.y + radius >= 480 || ball.y - radius<= 0) {
+			} else if (ball.y + radius > canvas.height || ball.y - radius < 0) {
 				vy1 =- vy1;
-			} else if ( ball2.x + radius > 640 || ball2.x - radius < 0 ) {
+			} else if ( ball2.x + radius > canvas.width || ball2.x - radius < 0 ) {
 				vx2 =- vx2;
-			} else if (ball2.y + radius >= 480 || ball2.y - radius <= 0) {
+			} else if (ball2.y + radius > canvas.height || ball2.y - radius < 0) {
 				vy2 =- vy2;
-			}
+			}*/
+			canvasCollision(ball, vx1, vy1);
+			canvasCollision(ball2, vx2, vy2);
+			collisionDetection(ball, ball2);
+
+
+
 
 		};
+		function canvasCollision(object, vx, vy){
+			if ( object.x + radius > canvas.width || object.x - radius < 0 ) {
+				return object.x =- vx;
+			} else if (object.y + radius > canvas.height || object.y - radius < 0) {
+				return object.y =- vy;
+			} else if ( object.x + radius < canvas.width || object.x - radius > 0 ) {
+				return object.x += vx;
+			} else if ( object.y + radius < canvas.height || object.y - radius < 0 ) {
+				return object.y += vy;
+			}
+		}
+
+		function collisionDetection(object1, object2) {
+			var dx = object1.x - object2.x;
+			var dy = object1.y - object2.y;
+			var distance = object1.radius + object2.radius;
+
+			if (dx * dx + dy * dy <= distance * distance){
+				collision = true;
+				textArea.innerHTML = "Collision";
+				console.log(collision);
+			} else {
+				textArea.innerHTML = "";
+			}
+			return ( collision );
+		}
 
 
 
@@ -82,6 +121,7 @@ Move the x and y position of the ball according to vx and vy (remember that you 
   <canvas id="myCanvas" width="640" height="480"
    style="border:1px solid #000000;">
   </canvas>
+  <h1 id="textArea"></h1>
   </body>
 </html>
 
