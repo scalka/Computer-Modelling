@@ -21,22 +21,15 @@ Move the x and y position of the ball according to vx and vy (remember that you 
 		var canvasWidth = canvas.width;
 		var canvasHeight = canvas.height;
 		//create ball object with radius 10
+
 		ball = new Ball(10, 'red');
 		var xPos = 0; // -3 is where x starts on graph
 		var yPos = 0; //initialise to 0 and equation will be solved for y below
-		var scaleX = 128; // distance want/have for x
-		var scaleY = 480/45; // distance want/have for y
-		var translateX = 256;
-		var translateY = 480;
-
-		var angle = 120;
+		var angle = 45;
 		var speed = 5;
-
-		var vx = Math.cos(angle) * speed;
-		var vy = Math.sin(angle) * speed;
-
-
-
+		var vx = Math.cos(angle*Math.PI/180) * speed;
+		var vy = Math.sin(angle*Math.PI/180) * speed;
+		
 		//sets up animation loop
 		function animate () {
 			//clears the stage after every iteration of the loop
@@ -44,15 +37,9 @@ Move the x and y position of the ball according to vx and vy (remember that you 
 			//special animation function - accepts the callback function 'animate'
 			window.requestAnimationFrame(animate, canvas);
 
-			//animate ball object according to the given curve  
-			yPos = xPos*vy *vy; 
-
-			//sets the x and y coordinates of the ball object using x and y properties from Ball class
-			ball.x = xPos*vx;
-			ball.y =  yPos;
-			
-			//keep it moving by incrementing by 0.1 every frame iteration
-			xPos = xPos + 0.1;
+		
+			ball.x += vx;
+			ball.y += vy;
 
 		//draw ball on canvas using draw method from Ball class
 			ball.draw(context);

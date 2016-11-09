@@ -8,7 +8,7 @@ Move the x and y position of the ball according to vx and vy (remember that you 
 <html>
   <head>
     <meta charset="utf-8">
-    <title>prac 5 q 2</title>
+    <title>prac 5 q 3</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="./classes/ball.js"></script> 
     <script type="text/javascript">
@@ -21,47 +21,54 @@ Move the x and y position of the ball according to vx and vy (remember that you 
 		var canvasWidth = canvas.width;
 		var canvasHeight = canvas.height;
 		//create ball object with radius 10
-		ball = new Ball(10, 'red');
-		var xPos1 = 0; 
-		var yPos1 = 40; 
+		var speed = 5;
+		var radius = 30;
 
-		ball2 = new Ball(20, 'green');
-		xPos2 = 20;
-		yPos2 = 60;
+		ball = new Ball(30, 'red');
+		ball.x = 50; 
+		ball.y = 50; 
+		var angle1 = 25;
+		var vx1 = Math.cos(angle1*Math.PI/180) * speed;
+		var vy1 = Math.sin(angle1*Math.PI/180) * speed;
 
-		var angle = 25;
-		var speed = 15;
-
-		var vx = Math.cos(angle*(180/Math.PI)) * speed;
-		var vy = Math.sin(angle*(180/Math.PI)) * speed;
-
-
+		ball2 = new Ball(30, 'green');
+		ball2.x = 150;
+		ball2.y = 150;
+		var angle2 = 47;
+		var vx2 = Math.cos(angle2*Math.PI/180) * speed;
+		var vy2 = Math.sin(angle2*Math.PI/180) * speed;
 
 		//sets up animation loop
 		function animate () {
-			//clears the stage after every iteration of the loop
 			context.clearRect(0, 0, canvasWidth, canvasHeight);
-			//special animation function - accepts the callback function 'animate'
 			window.requestAnimationFrame(animate, canvas);
 
-			//sets the x and y coordinates of the ball object using x and y properties from Ball class
-			ball.x = xPos1;
-			ball.y =  yPos1;
-			//animate ball object according to the given curve  
-			yPos1 = xPos1*vy *vy; 
-			//keep it moving by incrementing by 0.1 every frame iteration
-			xPos1 = xPos1 + 0.6;
+			ball.x += vx1;
+			ball.y += vy1;
 
-		/*	ball2.x = xPos2;
-			ball2.y = yPos2;
-			yPos2 = yPos2 * vy *vx;
-			xPos2 = xPos2 + 0.6;
-*/
+			ball2.x += vx2;
+			ball2.y += vy2;
 
-		//draw ball on canvas using draw method from Ball class
 			ball.draw(context);
 			ball2.draw(context);
+			
+		//	collisionTest(ball.x, ball.y, ball.radius, vx1, vy1);
+			console.log(ball.x, ball.y, ball.radius, vx1, vy1);
+
+			if ( ball.x + radius > 640 || ball.x - radius < 0 ) {
+				vx1 =- vx1;
+			} else if (ball.y + radius >= 480 || ball.y - radius<= 0) {
+				vy1 =- vy1;
+			} else if ( ball2.x + radius > 640 || ball2.x - radius < 0 ) {
+				vx2 =- vx2;
+			} else if (ball2.y + radius >= 480 || ball2.y - radius <= 0) {
+				vy2 =- vy2;
+			}
+
 		};
+
+
+
 		//call it once to kick it off 
 		//after that it recursively calls itself
 		window.requestAnimationFrame(animate, canvas);
