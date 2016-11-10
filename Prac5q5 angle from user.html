@@ -1,0 +1,82 @@
+<!-- Write a script which moves a ball object, given speed = 5, and angle input by the user.
+The user should be able to enter the angle into the text field, and then click the button to set the ball in motion
+ -->
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac 5 q 3</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.js"></script> 
+    <script type="text/javascript">
+		
+    var canvas, context, canvasWidth, canvasHeight, angle1, vx1, vy1, angleInput, textArea, button;
+		var	speed = 5;
+		var	radius = 30;
+		var angle = 45;
+
+		function init(){
+			//assign the canvas element  to a variable using the DOM
+			canvas = document.getElementById("myCanvas");
+			//assign the 2d rendering context (what we draw on) to a variable
+			context = canvas.getContext("2d");
+			canvasWidth = canvas.width;
+			canvasHeight = canvas.height;
+			//create ball object with radius 10
+			 angleInput = document.getElementById("angleInput").value;
+			 textArea = document.getElementById("textArea");
+			 button = document.getElementById("button");
+			 requestAnimationFrame(animation);
+		}
+		//sets up animation loop
+		function animation (e) {
+			startAnim = requestAnimationFrame(animation);
+			
+			ball = new Ball(10, 'red');
+			var xPos = 0; // -3 is where x starts on graph
+			var yPos = 0; //initialise to 0 and equation will be solved for y below
+			var vx = Math.cos(angle*Math.PI/180) * speed;
+			var vy = Math.sin(angle*Math.PI/180) * speed;
+
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			window.requestAnimationFrame(animation, canvas);
+
+			ball.x += vx;
+			ball.y += vy;
+			
+
+			ball.draw(context);
+			console.log("anim");
+		};
+		function canvasCollision(object, vx, vy){
+			if ( object.x + radius > canvas.width || object.x - radius < 0 ) {
+				return object.x =- vx;
+			} else if (object.y + radius > canvas.height || object.y - radius < 0) {
+				return object.y =- vy;
+			} else if ( object.x + radius < canvas.width || object.x - radius > 0 ) {
+				return object.x += vx;
+			} else if ( object.y + radius < canvas.height || object.y - radius < 0 ) {
+				return object.y += vy;
+			}
+		}
+
+		
+
+		</script>
+	</head>  
+ <body onload="init()">
+	<header>
+
+	</header>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  <h1 id="textArea">Angle:</h1>
+  <input type="text" id="angleInput">
+  <input type="button" id="start" onclick="animation(event);" value="Start"></input>
+
+  </body>
+</html>
+
+

@@ -59,9 +59,11 @@ TODO function for collision check
 			ball.draw(context);
 			ball2.draw(context);
 			
+			
+
 		//	collisionTest(ball.x, ball.y, ball.radius, vx1, vy1);
 
-/*
+
 			if ( ball.x + radius > canvas.width || ball.x - radius < 0 ) {
 				vx1 =- vx1;
 			} else if (ball.y + radius > canvas.height || ball.y - radius < 0) {
@@ -70,9 +72,7 @@ TODO function for collision check
 				vx2 =- vx2;
 			} else if (ball2.y + radius > canvas.height || ball2.y - radius < 0) {
 				vy2 =- vy2;
-			}*/
-			canvasCollision(ball, vx1, vy1);
-			canvasCollision(ball2, vx2, vy2);
+			}
 			collisionDetection(ball, ball2);
 
 
