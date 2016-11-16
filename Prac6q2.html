@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac6q1</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function() {
+			//assign the canvas element  to a variable using the DOM
+			var canvas = document.getElementById("myCanvas");
+			//assign the 2d rendering context (what we draw on) to a variable
+			var context = canvas.getContext("2d");
+			var canvasWidth = canvas.width;
+			var canvasHeight = canvas.height;
+			
+			window.onload = function (){
+				// clear canvas each onmousemove
+				context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+				var rect1 = new drawRectangle(context, Math.random()*640 , Math.random()*480);
+					rect1.rectangle("orange");
+
+				var rect2 = new drawRectangle(context, Math.random()*640, Math.random()*480);
+					rect2.rectangle("blue");	
+
+				var dist = distance(rect1.xPos, rect1.yPos, rect2.xPos, rect2.yPos);
+				document.getElementById("distance").innerHTML = dist;
+			}
+		});
+
+		function drawRectangle(ctxt, xPos, yPos){
+			// assign property values to object
+			this.xPos = xPos;
+			this.yPos = yPos;
+			//create object
+			this.rectangle = function(color) {
+				ctxt.fillStyle = color;
+				ctxt.fillRect(xPos, yPos, 10, 10);
+				ctxt.fill();
+			}
+		}
+
+		function distance(xPos1, yPos1, xPos2, yPos2) {
+			return Math.sqrt((Math.pow(xPos1-xPos2, 2)) +(Math.pow(yPos1-yPos2, 2)));
+		}
+		
+		</script>
+	</head>  
+ <body>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  <h2>Distance between arrow and mouse</h2>
+  <h2 id="distance"></h2>
+  </body>
+</html>
