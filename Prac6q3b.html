@@ -2,29 +2,35 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>prac6q2</title>
+    <title>prac6q3a</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script type="text/javascript">
 		$(document).ready(function() {
+			var xMouse;
+			var yMouse;
 			//assign the canvas element  to a variable using the DOM
 			var canvas = document.getElementById("myCanvas");
 			//assign the 2d rendering context (what we draw on) to a variable
 			var context = canvas.getContext("2d");
 			var canvasWidth = canvas.width;
 			var canvasHeight = canvas.height;
-			
-			window.onload = function (){
-				// clear canvas each onmousemove
+			window.onmousemove = function (){
 				context.clearRect(0, 0, canvasWidth, canvasHeight);
 
-				var rect1 = new drawRectangle(context, Math.random()*640 , Math.random()*480);
-					rect1.rectangle("orange");
+				var rect1 = new drawRectangle(context, canvasWidth/2 , canvasHeight/2);
+				rect1.rectangle("orange");
 
-				var rect2 = new drawRectangle(context, Math.random()*640, Math.random()*480);
-					rect2.rectangle("blue");	
-
-				var dist = distance(rect1.xPos, rect1.yPos, rect2.xPos, rect2.yPos);
+				// mouse coordinates relative to the top left corner of the browser window’s client area
+				xMouse = event.clientX;
+				yMouse = event.clientY;
+		
+				var dist = distance(xMouse, yMouse, rect1.xPos, rect1.yPos);
 				document.getElementById("distance").innerHTML = dist;
+				//drawing line
+				context.beginPath();
+				context.moveTo(canvasWidth/2, canvasHeight/2);
+				context.lineTo(xMouse, yMouse);
+				context.stroke();
 			}
 		});
 
@@ -35,22 +41,20 @@
 			//create object
 			this.rectangle = function(color) {
 				ctxt.fillStyle = color;
-				ctxt.fillRect(xPos, yPos, 10, 10);
+				ctxt.fillRect(xPos-5, yPos-5, 10, 10);
 				ctxt.fill();
 			}
 		}
-
 		function distance(xPos1, yPos1, xPos2, yPos2) {
 			return Math.sqrt((Math.pow(xPos1-xPos2, 2)) +(Math.pow(yPos1-yPos2, 2)));
 		}
-		
 		</script>
 	</head>  
  <body>
   <canvas id="myCanvas" width="640" height="480"
    style="border:1px solid #000000;">
   </canvas>
-  <h2>Distance between arrow and mouse</h2>
+  <h2>Distance between square and mouse</h2>
   <h2 id="distance"></h2>
   </body>
 </html>
