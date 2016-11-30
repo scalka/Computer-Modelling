@@ -7,22 +7,16 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="./classes/ball.js"></script> 
     <script type="text/javascript">
-	
+/*	
 	var angle = 45;
-	var force = 1;
-	var speed = 1;
-
-	var ax = force*Math.cos(angle*Math.PI/180);
-	var ay = force*Math.sin(angle*Math.PI/180);
-/*	var ax = 1;
-	var ay = 1;*/
-
+	var force = 0;
+	var speed = 1;*/
+	var ax = 0;
+	var ay = 0;
+	var vx = 0;
+	var vy = 0;
 /*	var vx = Math.cos(angle*Math.PI/180)*speed;
 	var vy = Math.sin(angle*Math.PI/180)*speed;*/
-	var vx = 1;
-	var vy = 1;
-
-
 	$(document).ready(function() {
 		//assign the canvas element  to a variable using the DOM
 		var canvas = document.getElementById("myCanvas");
@@ -32,26 +26,19 @@
 		var canvasHeight = canvas.height;
 		//create ball object with radius 10
 		ball = new Ball(10);
-		var xPos = canvasWidth/2; // -3 is where x starts on graph
-		var yPos = canvasHeight/2; //initialise to 0 and equation will be solved for y below
-
+		ball.x = canvasWidth/2; // -3 is where x starts on graph
+		ball.y = canvasHeight/2; //initialise to 0 and equation will be solved for y below
 		//sets up animation loop
 		function animate () {
 			console.log(vx);
-			//clears the stage after every iteration of the loop
 			context.clearRect(0, 0, canvasWidth, canvasHeight);
-			//special animation function - accepts the callback function 'animate'
 			window.requestAnimationFrame(animate, canvas);
-			//sets the x and y coordinates of the ball object using x and y properties from Ball class
 			vx = vx + ax;
 			vy = vy + ay;
 
-			//yPos = xPos*vy;
+			ball.x = ball.x+vx;
+			ball.y = ball.y+vy;
 
-			ball.x = xPos+vx;
-			ball.y = xPos+vy;
-			//keep it moving by incrementing by 0.1 every frame iteration
-			xPos = xPos + 0.01;
 		//draw ball on canvas using draw method from Ball class
 			ball.draw(context);
 		};
@@ -59,33 +46,25 @@
 		//after that it recursively calls itself
 		window.requestAnimationFrame(animate, canvas);
     });
-
     function checkKeys(e){
 		var keyPressed = e.keyCode;
 		console.log(keyPressed);
 		switch(keyPressed){
 			case(37):
 				motion = "left";
-				ax = -ax;
-				vx = -vx;
-				vy = vy;
+				ax = -0.01;
 				break;
 			case(39):
 				motion = "right";
-				ax = -ay;
-				vx = vx;
-				vy = 0;
+				ax = 0.01;
 				break;
 			case(38):
 				motion = "up";
-				vx = 0;
-				vy = -1;
+				ay = -0.01;
 				break;
 			case(40):
 				motion = "down";
-				vx = 0;
-				vy = 1;
-
+				ay= 0.01;
 				break;
 			default:
 				console.log("default key");
@@ -96,7 +75,6 @@
 	</head>  
  <body onkeydown="checkKeys(event)">
 	<header>
-
 	</header>
 	  <canvas id="myCanvas" width="640" height="480"
 	   style="border:1px solid #000000;" >
