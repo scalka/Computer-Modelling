@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac8q4</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/arrow.js"></script> 
+    <script type="text/javascript">
+		var xMouse;
+		var yMouse;
+		var distance
+		var dist;
+
+		var ax = 0;
+		var ay = 0;
+		var vx = 0;
+		var vy = 0;
+		var force= 0.01;
+		var angle;	
+
+		$(document).ready(function() {
+			var canvas = document.getElementById("myCanvas");
+			var context = canvas.getContext("2d");
+			var canvasWidth = canvas.width;
+			var canvasHeight = canvas.height;
+			// arrow object from arrow class
+			arrow = new Arrow ();
+				// positiong at the center of canvas
+				arrow.x = canvasWidth/2;
+				arrow.y = canvasHeight/2;
+				arrow.draw(context);
+			window.onmousemove = function (){
+				// clear canvas each onmousemove
+				context.clearRect(0, 0, canvasWidth, canvasHeight);
+				// mouse coordinates relative to the top left corner of the browser window’s client area
+				xMouse = event.clientX;
+				yMouse = event.clientY;
+				// dx dy - difference between x,y of arrow and x,y of mouse 
+				var dx = xMouse - arrow.x ;
+				var dy = yMouse - arrow.y ;
+				angle =  Math.atan2(dy, dx);
+				arrow.rotation = angle;
+				
+				
+
+				ax = Math.cos(angle)*force;
+				ay = Math.sin(angle)*force;
+
+				vx = vx + ax;
+				vy = vy + ay;
+
+				arrow.x = arrow.x + vx;
+				arrow.y = arrow.y + vy;
+				console.log(angle);
+				arrow.draw(context);
+			}
+		});
+
+		function distance(arrowX, arrowY, mouseX, mouseY) {
+			return Math.sqrt((Math.pow(arrowX-mouseX, 2)) +(Math.pow(arrowY-mouseY, 2)));
+		}
+		
+		</script>
+	</head>  
+ <body>
+  <canvas id="myCanvas" width="640" height="480"
+   style="border:1px solid #000000;">
+  </canvas>
+  <h2>Distance between arrow and mouse</h2>
+  <h2 id="distance"></h2>
+  </body>
+</html>
