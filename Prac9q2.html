@@ -7,15 +7,17 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="./classes/ship.html"></script> 
     <script type="text/javascript">
-/*	
-	var angle = 45;
-	var force = 0;
+	
+/*	var angle = 45;
+	var force;
 	var speed = 1;*/
 	var ax = 0;
 	var ay = 0;
 	var vx = 0;
 	var vy = 0;
 	var vr = 0;
+	var degrees = 90;
+	var thrust = false;
 /*	var vx = Math.cos(angle*Math.PI/180)*speed;
 	var vy = Math.sin(angle*Math.PI/180)*speed;*/
 	$(document).ready(function() {
@@ -31,20 +33,18 @@
 		ship.y = canvasHeight/2; //initialise to 0 and equation will be solved for y below
 		//sets up animation loop
 		function animate () {
-			console.log(ship);
 			context.clearRect(0, 0, canvasWidth, canvasHeight);
 			window.requestAnimationFrame(animate, canvas);
-			vx = vx + ax;
+			vx = vx + ax ;
 			vy = vy + ay;
-
+			console.log(vx);
 			ship.x = ship.x+vx;
 			ship.y = ship.y+vy;
+
 			ship.rotation = vr;
-		//draw ship on canvas using draw method from Ball class
+			ship.showFlame = thrust;
 			ship.draw(context);
 		};
-		//call it once to kick it off 
-		//after that it recursively calls itself
 		window.requestAnimationFrame(animate, canvas);
     });
     function checkKeys(e){
@@ -53,13 +53,22 @@
 		switch(keyPressed){
 			case(37):
 				motion = "left";
-				vr = 1;
+				degrees = 180;
+				vr = (degrees*Math.PI/180);
+				ax = -0.01;
 				break;
 			case(39):
+				degrees = 360;
+				vr = (degrees*Math.PI/180);
+				ax = 0.01;
 				motion = "right";
 				break;
 			case(38):
 				motion = "up";
+				thrust = true;
+				degrees = -90;
+				vr = (degrees*Math.PI/180);
+				ay = -0.01;
 				break;
 			case(40):
 				motion = "down";
@@ -67,11 +76,15 @@
 			default:
 				console.log("default key");
 				motion = "static";	
-		}		
-	}
+			};	
+		}
+		function keyUp(e){
+			thrust = false;
+				console.log("sdf");
+		}	
 		</script>
 	</head>  
- <body onkeydown="checkKeys(event)">
+ <body onkeydown="checkKeys(event)" onkeyup="keyUp(event)">
 	<header>
 	</header>
 	  <canvas style="background-color:rgb(69, 70, 71)
