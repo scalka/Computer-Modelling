@@ -6,18 +6,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="./classes/arrow.js"></script> 
     <script type="text/javascript">
-		var xMouse;
-		var yMouse;
-		var distance
-		var dist;
-
-		var ax = 0;
-		var ay = 0;
-		var vx = 0;
-		var vy = 0;
-		var force= 0.01;
-		var angle;	
-
+		var vr = 2;
 		$(document).ready(function() {
 			var canvas = document.getElementById("myCanvas");
 			var context = canvas.getContext("2d");
@@ -29,36 +18,17 @@
 				arrow.x = canvasWidth/2;
 				arrow.y = canvasHeight/2;
 				arrow.draw(context);
-			window.onmousemove = function (){
+			function animate (){
+				window.requestAnimationFrame(animate, canvas);
+				context.clearRect(0, 0, canvasWidth, canvasHeight);
 				// clear canvas each onmousemove
 				context.clearRect(0, 0, canvasWidth, canvasHeight);
-				// mouse coordinates relative to the top left corner of the browser window’s client area
-				xMouse = event.clientX;
-				yMouse = event.clientY;
-				// dx dy - difference between x,y of arrow and x,y of mouse 
-				var dx = xMouse - arrow.x ;
-				var dy = yMouse - arrow.y ;
-				/*angle =  Math.atan2(dy, dx);
-				arrow.rotation = angle;
-						
-				ax = Math.cos(angle)*force;
-				ay = Math.sin(angle)*force;
-
-				vx = vx + ax;
-				vy = vy + ay;
-*/				
-				arrow.rotation = -Math.atan2(dy, dx);
-				arrow.x = arrow.x + vx;
-				arrow.y = arrow.y + vy;
-				console.log(angle);
+				arrow.rotation += vr * Math.PI/180;
 				arrow.draw(context);
 			}
+			window.requestAnimationFrame(animate, canvas);
 		});
 
-		function distance(arrowX, arrowY, mouseX, mouseY) {
-			return Math.sqrt((Math.pow(arrowX-mouseX, 2)) +(Math.pow(arrowY-mouseY, 2)));
-		}
-		
 		</script>
 	</head>  
  <body>

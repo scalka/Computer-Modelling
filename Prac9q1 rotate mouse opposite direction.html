@@ -10,14 +10,7 @@
 		var yMouse;
 		var distance
 		var dist;
-
-		var ax = 0;
-		var ay = 0;
-		var vx = 0;
-		var vy = 0;
-		var force= 0.01;
-		var angle;	
-
+		var vr;
 		$(document).ready(function() {
 			var canvas = document.getElementById("myCanvas");
 			var context = canvas.getContext("2d");
@@ -38,7 +31,8 @@
 				// dx dy - difference between x,y of arrow and x,y of mouse 
 				var dx = xMouse - arrow.x ;
 				var dy = yMouse - arrow.y ;
-				angle =  -Math.atan2(dy, dx);
+				vr = 2;
+				angle =  -Math.atan2(dy, dx)*vr;
 				arrow.rotation = angle;
 				arrow.draw(context);
 			}
