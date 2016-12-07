@@ -12,6 +12,8 @@
 			var context = canvas.getContext("2d");
 			var canvasWidth = canvas.width;
 			var canvasHeight = canvas.height;
+			angleInput = document.getElementById("angleInput").value;
+			
 			// arrow object from arrow class
 			arrow = new Arrow ();
 				// positiong at the center of canvas
@@ -37,5 +39,7 @@
   </canvas>
   <h2>Distance between arrow and mouse</h2>
   <h2 id="distance"></h2>
+  <input type="text" id="angleInput" name="angle"/>
+  <input type="button" id="start" onclick="animation(event);" value="Start"></input>
   </body>
 </html>
