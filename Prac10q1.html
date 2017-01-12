@@ -1,0 +1,64 @@
+<!-- Write a script that moves a circle object (use the Ball class) up and down in a smooth bobbing motion.  
+
+Note that the motion is in the y direction only, and should begin from - and oscillate around - the centre of the stage. The ball is fixed in the middle of the stage in the x direction. 
+Try different values for the range (how far the ball moves).
+Note that the angle variable should be incremented by a value (store it in a variable called yspeed) that is less than zero to maintain the smooth effect.  
+Try setting to a higher value, and observe what happens. 
+
+Note that we should use the following variables to move the ball:
+angle, range, yspeed
+ -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac10q1</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.js"></script> 
+    <script type="text/javascript">
+
+    var angle = 45;
+    var range = 50;
+    var yspeed = 0.1; // angle that is less than zero to maintain the smooth effect
+
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		//create ball object with radius 10
+		ball = new Ball(10);
+		ball.x = canvasWidth/2; // -3 is where x starts on graph
+		ball.y = canvasHeight/2; //initialise to 0 and equation will be solved for y below
+		//sets up animation loop
+		function animate () {
+
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			window.requestAnimationFrame(animate, canvas);
+	
+			ball.x += yspeed;
+			ball.y = canvasHeight/2 + range  * Math.sin(angle) + 1;
+			angle += yspeed;
+
+		//draw ball on canvas using draw method from Ball class
+			ball.draw(context);
+		};
+		//call it once to kick it off 
+		//after that it recursively calls itself
+		window.requestAnimationFrame(animate, canvas);
+    });
+	
+		</script>
+	</head>  
+ <body>
+	<header>
+	</header>
+	  <canvas id="myCanvas" width="640" height="480"
+	   style="border:1px solid #000000;" >
+	  </canvas>
+  </body>
+</html>
+
+
