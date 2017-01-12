@@ -1,12 +1,7 @@
-<!-- Write a script that moves a circle object (use the Ball class) up and down in a smooth bobbing motion.  
+<!-- Write a second script that adds horizontal motion to give the wave like effect. 
+Hint: we need an extra variable (xspeed) to move the ball along the x axis. 
 
-Note that the motion is in the y direction only, and should begin from - and oscillate around - the centre of the stage. The ball is fixed in the middle of the stage in the x direction. 
-Try different values for the range (how far the ball moves).
-Note that the angle variable should be incremented by a value (store it in a variable called yspeed) that is less than zero to maintain the smooth effect.  
-Try setting to a higher value, and observe what happens. 
 
-Note that we should use the following variables to move the ball:
-angle, range, yspeed
  -->
 <!doctype html>
 <html>
@@ -20,6 +15,7 @@ angle, range, yspeed
     var angle = 45;
     var range = 50;
     var yspeed = 0.1; // angle that is less than zero to maintain the smooth effect
+    var xspeed = 1;
 
 	$(document).ready(function() {
 		//assign the canvas element  to a variable using the DOM
@@ -30,7 +26,7 @@ angle, range, yspeed
 		var canvasHeight = canvas.height;
 		//create ball object with radius 10
 		ball = new Ball(10);
-		ball.x = canvasWidth/2; // -3 is where x starts on graph
+		ball.x = 0; // -3 is where x starts on graph
 		ball.y = canvasHeight/2; //initialise to 0 and equation will be solved for y below
 		//sets up animation loop
 		function animate () {
@@ -38,7 +34,7 @@ angle, range, yspeed
 			context.clearRect(0, 0, canvasWidth, canvasHeight);
 			window.requestAnimationFrame(animate, canvas);
 	
-			//ball.x += yspeed;
+			ball.x += xspeed;
 			ball.y = canvasHeight/2 + range  * Math.sin(angle) ;
 			angle += yspeed;
 
