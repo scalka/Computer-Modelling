@@ -1,0 +1,60 @@
+<!-- 
+ -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac11q1</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.js"></script> 
+    <script type="text/javascript">
+
+    var angle = 0;
+    var amplitude = 50; 
+    var xWavelength = 1; // wavelength 
+    var yWavelength = 0.02; // angle that is less than zero to maintain the smooth effect
+
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		var centerY = canvasHeight/2;
+
+		var xpos = 0;
+   		var ypos = centerY;
+
+		//sets up animation loop
+		function animate () {
+			window.requestAnimationFrame(animate, canvas);
+
+			context.strokeStyle = "#FF0000";
+			context.stroke();
+
+			context.beginPath();
+			context.moveTo(xpos, ypos);
+			//  *2 compress     /2 extend
+			xpos += xWavelength ;
+			ypos = centerY + amplitude  * Math.sin(  angle * 2) ;
+			angle += yWavelength;
+
+			context.lineTo(xpos, ypos);
+
+		};
+		window.requestAnimationFrame(animate, canvas);
+    });
+	
+		</script>
+	</head>  
+ <body>
+	<header>
+	</header>
+	  <canvas id="myCanvas" width="640" height="480"
+	   style="border:1px solid #000000;" >
+	  </canvas>
+  </body>
+</html>
+
+
