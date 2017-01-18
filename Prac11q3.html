@@ -33,11 +33,9 @@ Hint: we need an extra variable (xspeed) to move the ball along the x axis.
 
 		function animate () {
 
-			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			//context.clearRect(0, 0, canvasWidth, canvasHeight);
 			window.requestAnimationFrame(animate, canvas);
 	
-
-
 			ball.x += Math.sin(angle2);
 			angle2 += xWavelength;
 
