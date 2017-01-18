@@ -1,48 +1,55 @@
-<!-- 
+<!-- Write a second script that adds horizontal motion to give the wave like effect. 
+Hint: we need an extra variable (xspeed) to move the ball along the x axis. 
+
+
  -->
 <!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title>prac11q1</title>
+    <title>prac11q3</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script src="./classes/ball.js"></script> 
     <script type="text/javascript">
 
     var angle = 0;
-    var amplitude = 50; 
-    var xWavelength = 1; // wavelength 
-    var yWavelength = 0.02; // angle that is less than zero to maintain the smooth effect
+    var angle2 = 0;
+    var amplitude = 50;
+    var xWavelength = 0.07;
+    var yWavelength = 0.11; // angle that is less than zero to maintain the smooth effect
 
 	$(document).ready(function() {
-		//assign the canvas element  to a variable using the DOM
+
 		var canvas = document.getElementById("myCanvas");
-		//assign the 2d rendering context (what we draw on) to a variable
+
 		var context = canvas.getContext("2d");
 		var canvasWidth = canvas.width;
 		var canvasHeight = canvas.height;
-		var centerY = canvasHeight/2;
 
-		var xpos = 0;
-   		var ypos = centerY;
+		ball = new Ball(10);
+		ball.x = 100; // -3 is where x starts on graph
+		ball.y = canvasHeight/2; //initialise to 0 and equation will be solved for y below
 
-		//sets up animation loop
+
 		function animate () {
+
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
 			window.requestAnimationFrame(animate, canvas);
+	
 
-			context.strokeStyle = "#FF0000";
-			context.stroke();
 
-			context.beginPath();
-			context.moveTo(xpos, ypos);
-			//  *2 compress     /2 extend
-			xpos += xWavelength ;
-			ypos = centerY + amplitude  * Math.sin(  angle * 2) ;
+			ball.x += Math.sin(angle2);
+			angle2 += xWavelength;
+
+
+			ball.y = canvasHeight/2 + amplitude  * Math.sin(angle) ;
 			angle += yWavelength;
 
-			context.lineTo(xpos, ypos);
+			ball.draw(context);
 
 		};
+		//call it once to kick it off 
+		//after that it recursively calls itself
 		window.requestAnimationFrame(animate, canvas);
     });
 	
