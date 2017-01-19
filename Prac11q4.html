@@ -1,0 +1,93 @@
+<!-- 
+ -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac11q4</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.js"></script> 
+    <script type="text/javascript">
+
+    var angle = 0;
+    var angle2 = 0;
+    var angle3 = 0;
+    var amplitude = 50; 
+    var xWavelength = 1; // wavelength 
+    var yWavelength = 0.02; // angle that is less than zero to maintain the smooth effect
+
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+		var context2 = canvas.getContext("2d");
+		var context3 = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+		var centerY = canvasHeight/2;
+
+		var xpos = 0;
+   		var ypos = centerY;
+
+   		var xpos2 = 0;
+   		var ypos2 = centerY;
+
+   		var xpos3 = 0;
+   		var ypos3 = centerY;
+
+		//sets up animation loop
+		function animate () {
+			window.requestAnimationFrame(animate, canvas);
+			//red
+			context.strokeStyle = "#FF0000";
+			context.stroke();
+			context.beginPath();
+			context.moveTo(xpos, ypos);
+			//  *2 compress     /2 extend
+			xpos += xWavelength ;
+			ypos = centerY + amplitude  * Math.sin(  angle ) ;
+			angle += yWavelength;
+			context.lineTo(xpos, ypos);
+
+			//bkue
+			context2.strokeStyle = "#0000ff";
+			context2.stroke();
+			context2.beginPath();
+			context2.moveTo(xpos2, ypos2);
+			//  *2 compress     /2 extend
+			xpos2 += xWavelength ;
+			ypos2 = centerY + amplitude  * Math.sin(  angle2 * 2) ;
+			angle2 += yWavelength;
+			context2.lineTo(xpos2, ypos2);
+			//green
+			context3.strokeStyle = "#00ff00";
+			context3.stroke();
+			context3.beginPath();
+			context3.moveTo(xpos3, ypos3);
+			//  *2 compress     /2 extend
+			xpos3 += xWavelength ;
+			ypos3 = centerY + amplitude  * Math.sin(  angle3 / 3 ) ;
+			angle3 += yWavelength;
+			context3.lineTo(xpos3, ypos3);
+
+
+
+
+
+		};
+		window.requestAnimationFrame(animate, canvas);
+    });
+	
+		</script>
+	</head>  
+ <body>
+	<header>
+	</header>
+	  <canvas id="myCanvas" width="640" height="480"
+	   style="border:1px solid #000000;" >
+	  </canvas>
+  </body>
+</html>
+
+

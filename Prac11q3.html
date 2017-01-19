@@ -1,0 +1,65 @@
+<!-- Write a second script that adds horizontal motion to give the wave like effect. 
+Hint: we need an extra variable (xspeed) to move the ball along the x axis. 
+
+
+ -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac11q3</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.js"></script> 
+    <script type="text/javascript">
+
+    var angle = 0;
+    var angle2 = 0;
+    var amplitude = 50;
+    var xWavelength = 0.07;
+    var yWavelength = 0.11; // angle that is less than zero to maintain the smooth effect
+
+	$(document).ready(function() {
+
+		var canvas = document.getElementById("myCanvas");
+
+		var context = canvas.getContext("2d");
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+
+		ball = new Ball(10);
+		ball.x = 100; // -3 is where x starts on graph
+		ball.y = canvasHeight/2; //initialise to 0 and equation will be solved for y below
+
+
+		function animate () {
+
+			//context.clearRect(0, 0, canvasWidth, canvasHeight);
+			window.requestAnimationFrame(animate, canvas);
+	
+			ball.x += Math.sin(angle2);
+			angle2 += xWavelength;
+
+
+			ball.y = canvasHeight/2 + amplitude  * Math.sin(angle) ;
+			angle += yWavelength;
+
+			ball.draw(context);
+
+		};
+		//call it once to kick it off 
+		//after that it recursively calls itself
+		window.requestAnimationFrame(animate, canvas);
+    });
+	
+		</script>
+	</head>  
+ <body>
+	<header>
+	</header>
+	  <canvas id="myCanvas" width="640" height="480"
+	   style="border:1px solid #000000;" >
+	  </canvas>
+  </body>
+</html>
+
+
