@@ -50,7 +50,6 @@ Pendulums = {
             this.balls[i].x = 50;
             this.balls[i].y += 200 + i*10 ;
             this.balls[i].frequency = d * (this.firstFrequency + i);
-            console.log( this.balls[i].frequency);
             this.balls[i].draw(this.context);
       }
 
@@ -98,6 +97,12 @@ Cradle = {
      startTime: 0,
      balls: [],
      context: 0,
+     tPos: 0,
+     angle: 30,
+     xPos: 0,
+     yPos: 0,
+     radius: 100,
+     amplitude: 50,
 
      run: function() {
       //frequency
@@ -106,10 +111,10 @@ Cradle = {
       for (var i = 0; i < this.numBalls; i++) {
            // -------- new ball
             this.balls.push(new Ball(10));
-            this.balls[i].x = 50 + i + 20;
-            this.balls[i].y += 200;
+            this.balls[i].x =100;
+            this.balls[i].y += 0;
             this.balls[i].frequency = d * (this.firstFrequency + i);
-            console.log( this.balls[i].frequency);
+           // console.log( this.balls[i].frequency);
             this.balls[i].draw(this.context);
       }
 
@@ -120,24 +125,26 @@ Cradle = {
      },
      // the Pendulums main method, started every 30 milliseconds
      animate: function() {
-        this.context.clearRect(0, 0, 900, 900);
-        // get the actual time
-        var time = new Date().getTime() - this.startTime;
-        // numBalls the positins in a loop
-
         //for balls[]
-        for (var i = 0; i < this.numBalls; i++) {
-             var cos = Math.sin( time * this.balls[i].frequency );
-             // * 50  amplitude  how far left/right they go
-             //-cos        - cos position goes minus so we reverse it so it starts going right
-             this.positions[i] = Math.round(-cos * 50 + 100);
-             this.balls[i].x = this.positions[i];
-             this.balls[i].draw(this.context);
+        this.context.clearRect(0, 0, 900, 900);
 
-             this.context.beginPath();
-             this.context.moveTo(100,0);
-             this.context.lineTo(this.balls[i].x, this.balls[i].y);
-             this.context.stroke();
+        for (var i = 0; i < this.numBalls; i++) {
+            this.angle += 1;
+            // x = radius*cos(t) + xcoordOfCentrePoint
+            // y = radius*sin(t) + ycoordOfCentrePoint
+             this.xPos = this.radius * Math.cos( Cradle.toRadians(this.angle) * this.amplitude ) + 100;
+             this.yPos = this.radius * Math.sin(Cradle.toRadians(this.angle) * this.amplitude ) + 100;
+             this.balls[i].x = this.xPos;
+             this.balls[i].y = this.yPos;
+             this.balls[i].draw(this.context);
         }
-     }
+        console.log(this.angle);
+
+
+       // this.tPos += 0.1;
+     },
+    toRadians: function(angle){
+        //To convert from degrees to radians, multiply by (2 * pi) / 360 (or pi/180)
+        return angle*Math.PI/180;
+    }
 }
