@@ -104,20 +104,34 @@ Cradle = {
      radius: 100,
      amplitude: 50,
 
+     spring: 0.03,
+     friction: 0.95,
+     targetX: 320,
+     vx: 0,
+
      run: function() {
-      //frequency
-      var d = 2.0 * Math.PI / 60000.0;
+        //frequency
+        var d = 2.0 * Math.PI / 60000.0;
       // init variables in a loop, putting balls in place
       for (var i = 0; i < this.numBalls; i++) {
            // -------- new ball
-            this.balls.push(new Ball(10));
-            this.balls[i].x =100;
-            this.balls[i].y += 0;
-            this.balls[i].frequency = d * (this.firstFrequency + i);
-           // console.log( this.balls[i].frequency);
-            this.balls[i].draw(this.context);
-      }
+            this.balls.push(new Ball(20));
+            this.balls[i].x = 100 + 40*i;
+            this.balls[i].y = 300;
 
+            this.balls[i].lineX = this.balls[i].x;
+            this.balls[i].lineY = this.balls[i].y - 200;
+            this.balls[i].targetX = this.balls[i].x - 50;
+            this.balls[i].frequency = d * (this.firstFrequency + i);
+            
+            this.balls[i].draw(this.context);
+
+
+            this.context.beginPath();
+            this.context.moveTo(this.balls[i].x, this.balls[i].y - 200);
+            this.context.lineTo(this.balls[i].x , this.balls[i].y - 20);
+            this.context.stroke();
+      }
       // get the starting time
       this.startTime = new Date().getTime();
       // start timer
@@ -127,24 +141,62 @@ Cradle = {
      animate: function() {
         //for balls[]
         this.context.clearRect(0, 0, 900, 900);
+        var time = new Date().getTime() - this.startTime;
 
-        for (var i = 0; i < this.numBalls; i++) {
-            this.angle += 1;
-            // x = radius*cos(t) + xcoordOfCentrePoint
-            // y = radius*sin(t) + ycoordOfCentrePoint
-             this.xPos = this.radius * Math.cos( Cradle.toRadians(this.angle) * this.amplitude ) + 100;
-             this.yPos = this.radius * Math.sin(Cradle.toRadians(this.angle) * this.amplitude ) + 100;
-             this.balls[i].x = this.xPos;
-             this.balls[i].y = this.yPos;
-             this.balls[i].draw(this.context);
-        }
-        console.log(this.angle);
+                var d = 2.0 * Math.PI / 60000.0;
+                var dx = Math.cos( d * time * 10);
+                var ax = dx * this.spring;
 
+                this.vx += ax;
+                this.vx *= this.friction;
 
-       // this.tPos += 0.1;
-     },
-    toRadians: function(angle){
-        //To convert from degrees to radians, multiply by (2 * pi) / 360 (or pi/180)
-        return angle*Math.PI/180;
-    }
+                
+                
+                    
+                    
+                   // this.balls[4].x += this.vx;
+                    this.balls[4].draw(this.context);
+                if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
+                  console.log("last ball");
+                  this.balls[4].x += this.vx;
+                  this.balls[0].x += 0;
+                  
+
+                }
+                if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
+                  console.log("first ball");
+                  this.balls[0].x += this.vx;
+                  this.balls[4].x += 0;
+                  
+                }
+
+                this.balls[0].draw(this.context);
+                this.balls[4].draw(this.context);
+
+                this.balls[1].draw(this.context);
+                this.balls[2].draw(this.context);
+                this.balls[3].draw(this.context);
+
+                this.context.beginPath();
+                    this.context.moveTo(this.balls[4].lineX, this.balls[4].lineY);
+                    this.context.lineTo(this.balls[4].x , this.balls[4].y - 20);
+                    this.context.stroke();
+                this.context.beginPath();
+                    this.context.moveTo(this.balls[0].lineX, this.balls[0].lineY);
+                    this.context.lineTo(this.balls[0].x , this.balls[0].y - 20);
+                    this.context.stroke();
+                this.context.beginPath();
+                    this.context.moveTo(this.balls[1].lineX, this.balls[1].lineY);
+                    this.context.lineTo(this.balls[1].x , this.balls[1].y - 20);
+                    this.context.stroke();
+                this.context.beginPath();
+                    this.context.moveTo(this.balls[2].lineX, this.balls[2].lineY);
+                    this.context.lineTo(this.balls[2].x , this.balls[2].y - 20);
+                    this.context.stroke();
+                this.context.beginPath();
+                    this.context.moveTo(this.balls[3].lineX, this.balls[3].lineY);
+                    this.context.lineTo(this.balls[3].x , this.balls[3].y - 20);
+                    this.context.stroke();
+
+     }
 }

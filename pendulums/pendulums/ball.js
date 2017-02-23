@@ -10,6 +10,9 @@ function Ball (radius, color) {
   this.lineWidth = 1;
   this.color = color;
   this.frequency = 0;
+  this.lineX;
+  this.lineY;
+  this.targetX;
 }
 
 Ball.prototype.draw = function (context) {
@@ -30,3 +33,12 @@ Ball.prototype.draw = function (context) {
   }
   context.restore();
 };
+
+Ball.prototype.getBounds = function () {
+  return {
+    x: this.x - this.radius,
+    y: this.y - this.radius,
+    width: this.radius * 2,
+    height: this.radius * 2
+  };
+  };
