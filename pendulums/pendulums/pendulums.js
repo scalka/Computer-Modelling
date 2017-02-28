@@ -1,85 +1,80 @@
+//colors for balls
 var green = ' #3BAC50';
 var red = '#e1465d';
 var yellow = '#FFBF00';
 
-
-// run the Pendulums after the web page will have been loaded
+//after web page is loaded run those functions
 $(document).ready(function() {
-
-    var pendulums_canvas = document.getElementById("pendulums_canvas");
+    //get canvases
+    var pendulums_canvas = document.getElementById("pendulumsDiv");
     var cradle_canvas = document.getElementById("cradle_canvas");
-
+    //hide second canvas
     cradle_canvas.style.display = "none";
-
+    //buttons for hiding/displaying particular canvases
     var btn_pendulum = document.getElementById("btn_pendulum");
     btn_pendulum.addEventListener('click', function(){
         cradle_canvas.style.display = "none";
         pendulums_canvas.style.display = "block";
     });
-
     var btn_cradle = document.getElementById("btn_cradle");
     btn_cradle.addEventListener('click', function(){
         cradle_canvas.style.display = "block";
         pendulums_canvas.style.display = "none";
     });
-
     //assign the canvas element  to a variable using the DOM
     var canvas1 = document.getElementById("canvas1");
     //assign the 2d rendering context (what we draw on) to a variable
     var context1 = canvas1.getContext("2d");
+    //assign this context to Pendulum object
     Pendulums.context = context1;
+    //create object and start animation
     Pendulums.run();
-
+    //submit button 
     var submit = document.getElementById('submit');
+        //changing colors and number of balls in the pendulum
         submit.addEventListener('click', function() {
-        if (document.getElementById('amount_of_balls').value ){
-            Pendulums.numBalls = document.getElementById('amount_of_balls').value;
-        }
-        var colorValue = document.getElementById('colorsSelect').value;
-        if(colorValue === 'green'){
-            Pendulums.color = green;
-        } else if (colorValue === 'yellow'){
-            Pendulums.color = yellow;
-        }
-         else if (colorValue === 'red'){
-            Pendulums.color = red;
-        }
-
-        Pendulums.reset();
-    });
-
-
+            if (document.getElementById('amount_of_balls').value ){
+                Pendulums.numBalls = document.getElementById('amount_of_balls').value;
+            }
+            var colorValue = document.getElementById('colorsSelect').value;
+            if(colorValue === 'green'){
+                Pendulums.color = green;
+            } else if (colorValue === 'yellow'){
+                Pendulums.color = yellow;
+            }
+             else if (colorValue === 'red'){
+                Pendulums.color = red;
+            }
+            //reset the Pendulum animation with new values
+            Pendulums.reset();
+        });
+    //second canvas for Newton's cradle animation
     var canvas2 = document.getElementById("canvas2");
     //assign the 2d rendering context (what we draw on) to a variable
     var context2 = canvas2.getContext("2d");
-
+    //buttons for two different versions of animation
     var cradle1 = document.getElementById("cradle1");
     var cradle2 = document.getElementById("cradle2");
-
-    
+    //assign canvas and context to Cradle object
     Cradle.canvas = canvas2;
     Cradle.context = context2;
+    //buttons to run the animations 
     cradle1.addEventListener('click', function(){
+        Cradle.reset();
         Cradle.option = 1;
-        Cradle.run();
     });
     cradle2.addEventListener('click', function(){
+        Cradle.reset();
         Cradle.option = 2;
-        Cradle.run();
     });
-
 });
 
-
-
-// the Pendulums object
+// the Pendulum Wave object
 Pendulums = {
-     // amount of balls -  Pendulums constants
+     //amount of balls
      numBalls: 15,
-     //51 oscillations in this 60 second period
+     //51 oscillations in 60 secods period
      firstFrequency: 51,
-     // Pendulums variables
-     positions: [],
      frequencies: [],
      startTime: 0,
      balls: [],
@@ -88,21 +83,17 @@ Pendulums = {
 
      // the Pendulums init method
      run: function() {
-        console.log("run");
           //frequency
           var d = 2.0 * Math.PI / 60000.0;
-          
           // init variables in a loop, putting balls in place
           for (var i = 0; i < this.numBalls; i++) {
-               // -------- new ball
-                this.balls.push(new Ball(10));
+                this.balls.push(new Ball(15));
                 this.balls[i].color = this.color;
-                this.balls[i].x = 50;
-                this.balls[i].y = 200 + i*10 ;
+                this.balls[i].x = 0;
+                this.balls[i].y = 200 + i*15 ;
                 this.balls[i].frequency = d * (this.firstFrequency + i);
                 this.balls[i].draw(this.context);
           }
-
           // get the starting time
           this.startTime = new Date().getTime();
           // start timer
@@ -113,120 +104,97 @@ Pendulums = {
         this.context.clearRect(0, 0, 900, 900);
         // get the actual time
         var time = new Date().getTime() - this.startTime;
-        // numBalls the positins in a loop
-
-        //for balls[]
+        //for each ball change x value 
         for (var i = 0; i < this.numBalls; i++) {
              var cos = Math.cos( time * this.balls[i].frequency );
              // * 50  amplitude  how far left/right they go
              //-cos        - cos position goes minus so we reverse it so it starts going right
-             this.positions[i] = Math.round(-cos * 50 + 100);
-             this.balls[i].x = this.positions[i];
+             this.balls[i].x = Math.round(-cos * 70 + 200);
              this.balls[i].draw(this.context);
-
+             //strings which "holds" the balls
              this.context.beginPath();
-             this.context.moveTo(100,0);
+             this.context.moveTo(200,0);
              this.context.lineTo(this.balls[i].x, this.balls[i].y);
+             this.context.strokeStyle="#565656";
              this.context.stroke();
-            }
+        }
     },
+    //reset animation and values
     reset: function(){
             this.context.clearRect(0, 0, 900, 900);
             var newPend = Pendulums.run();
     }
-
-
 }
-
-
-
+//Newton's Cradle object
 Cradle = {
-     // amount of balls -  Pendulums constants
+     // amount of balls
      numBalls: 5,
-     //51 oscillations in this 60 second period
-     firstFrequency: 51,
-     // Pendulums variables
-     positions: [],
-     frequencies: [],
      startTime: 0,
      balls: [],
      context: 0,
      canvas: 0,
-     tPos: 0,
-     angle: 30,
-     xPos: 0,
-     yPos: 0,
      radius: 20,
-     amplitude: 50,
-
      spring: 0.1,
      friction: 0.95,
      targetX: 320,
-     vx: 0,
+     vx: 0, // velocity
      cradleVersion: 1,
-
+     ax: 0, // acceleration
 
      run: function() {
-        //frequency
-        var d = 2.0 * Math.PI / 60000.0;
-      // init variables in a loop, putting balls in place
-      for (var i = 0; i < this.numBalls; i++) {
-           // -------- new ball
+        // init variables in a loop, putting balls in place
+        for (var i = 0; i < this.numBalls; i++) { 
+            //placing new ball on the canvas
             this.balls.push(new Ball(20));
-            this.balls[i].x = 100 + 40*i;
+            this.balls[i].x = 200 + 40*i;
             this.balls[i].y = 300;
-
+            //to be used later while drawing the strings which "holds" balls
             this.balls[i].lineX = this.balls[i].x;
             this.balls[i].lineY = this.balls[i].y - 300;
-            this.balls[i].targetX = this.balls[i].x - 50;
-            this.balls[i].frequency = d * (this.firstFrequency + i);
-            
+            //draw balls
             this.balls[i].draw(this.context);
-
-
+            //draw strings
             this.context.beginPath();
             this.context.moveTo(this.balls[i].x, this.balls[i].y - 200);
             this.context.lineTo(this.balls[i].x , this.balls[i].y - 20);
             this.context.stroke();
-      }
-
-      // get the starting time
-      this.startTime = new Date().getTime();
-      // start timer
-      window.setInterval("Cradle.animate()", 30);
+        }
+        // get the starting time
+        this.startTime = new Date().getTime();
+        // start timer
+        window.setInterval("Cradle.animate()", 30);
      },
      // the Pendulums main method, started every 30 milliseconds
      animate: function() {
-        //for balls[]
         this.context.clearRect(0, 0, 900, 900);
         var time = new Date().getTime() - this.startTime;
-
-        var angle = 45;
-        var amplitude = 50;
         var d = 2.0 * Math.PI / 60000.0;
-        var dx = Math.cos( d * time * 10);
-        var ax = dx * this.spring;
-
-        this.vx += ax;
+        this.ax = Math.cos( d * time * 10) * this.spring;
+        this.vx += this.ax;
         this.vx *= this.friction;
-console.log(this.vx);
-
+        //drawing balls depending on cradle's option selected
         switch(this.option) {
+            //first and last balls are moving
             case 1:
+                //values for x and y when first ball is moving
                 if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
-                  //console.log("last ball");
                   this.balls[4].x += this.vx;
-                  this.balls[0].x += 0;
+                  this.balls[4].x += 0;
+                  this.balls[4].y -= this.vx * 0.2;
                 }
+                //values for x and y when last ball is moving
                 if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
                   //console.log("first ball");
                   this.balls[0].x += this.vx ;
                   this.balls[4].x += 0;  
+
+                  this.balls[0].y += this.vx * 0.2;
                 }
                 break;
+            //three ball swing
             case 2:
+                //values for x and y when left side balls is moving
                 if (utils.intersects(this.balls[1].getBounds(),  this.balls[2].getBounds())) {
-                  //console.log("last ball");
                   this.balls[0].x += this.vx;
                   this.balls[1].x += this.vx;
                   this.balls[2].x += this.vx;
@@ -238,6 +206,7 @@ console.log(this.vx);
                   this.balls[2].y += this.vx * 0.2;
             
                 }
+                //values for x and y when right side balls is moving
                 if (utils.intersects(this.balls[2].getBounds(),  this.balls[3].getBounds())){
                   this.balls[0].x += 0;
                   this.balls[1].x += 0;
@@ -261,30 +230,14 @@ console.log(this.vx);
                   this.balls[0].x += this.vx ;
                   this.balls[4].x += 0;  
                 }
-        }
-                           
+        }                   
         this.balls[0].draw(this.context);
-        this.balls[4].draw(this.context);
-
         this.balls[1].draw(this.context);
         this.balls[2].draw(this.context);
         this.balls[3].draw(this.context);
-
-
-
-
-/*        this.canvas.addEventListener('click', function(e){
-            
-            var clickedX = e.pageX - this.offsetLeft;
-            var clickedY = e.pageY - this.offsetTop;
-            for (var i = 0; i < 5; i++){
-                 if (clickedX < this.balls[i].x + this.radius && clickedX > this.balls[i].x - this.radius && clickedY > this.balls[i].y - this.radius && clickedY <this.balls[i].y + this.radius) {
-                    console.log("click" + i );
-                }       
-                console.log(  this.balls[2]);
-            }
-        });*/
-
+        this.balls[4].draw(this.context);
+        //drawing strings
+        this.context.strokeStyle="#565656";
         this.context.beginPath();
             this.context.moveTo(this.balls[4].lineX, this.balls[4].lineY);
             this.context.lineTo(this.balls[4].x , this.balls[4].y - 20);
@@ -305,9 +258,10 @@ console.log(this.vx);
             this.context.moveTo(this.balls[3].lineX, this.balls[3].lineY);
             this.context.lineTo(this.balls[3].x , this.balls[3].y - 20);
             this.context.stroke();
-
-
-
-
-     }
+     },
+     //reset animation and values
+    reset: function(){
+            //this.context.clearRect(0, 0, 900, 900);
+            var newCradle = Cradle.run();
+    }
 }

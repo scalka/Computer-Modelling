@@ -1,14 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Julius+Sans+One|Open+Sans');
 
 
 
+body {
+	font-family: 'Open Sans', sans-serif;
+}
 
 button {
 	margin: 5px;
 	padding: 10px;
 	width:100px;
+	background-color: #FFBF00;
+	color:  rgb(49, 39, 131);
+	font-weight: 2;
+	border-radius: 4px;
 }
-
-
 
 #container{
 	display: flex; /*or inline-flex*/
@@ -18,12 +24,25 @@ button {
   	justify-content: space-around;
   	align-items: stretch;
   	background-color: #e8e8e9;
-
+}
+#pendulumsDiv{
+	padding: 10px;
+	color: white;
+}
+#colorsSelect{
+	margin-left: 23px;
 }
 #buttons_div{
-	width: 200px;
-	background-color: green;
+	width: 20%;
+	background-color:#3BAC50;
+
 }
 #canvases_container{
-	background-color: blue;
+	width: 80%;
+	background-color: rgb(49, 39, 131);
+}
+
+#cradleButtons{
+	color: white;
+	margin: 10px; 
 }

@@ -1,51 +1,48 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<title>Compy=uter Modelling - Pendulum Waves and Newton's Cradle</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<head>
+		<title>Compy=uter Modelling - Pendulum Waves and Newton's Cradle</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script language="javascript" type="text/javascript" src="pendulums.js"></script>
 		<script language="javascript" type="text/javascript" src="classes/ball.js"></script>
 		<script language="javascript" type="text/javascript" src="classes/utils.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css" media="all">
+		<link rel="stylesheet" type="text/css" href="style.css" media="all">
+	</head>
+	<body>
+		<div id="container">
+			<div id="buttons_div">
+				<button id="btn_pendulum">Pendulum</button>
+				<br>
+				<button id="btn_cradle">Cradle</button>
+			</div> <!-- end buttons div -->
 
-</head>
-<body>
+			<div id="canvases_container">
+				<div id="pendulumsDiv">
+					<h2>Pendulums Wave</h2>
+					Number of balls: <input type="number" name="amount_of_balls" id="amount_of_balls"><br>
+					Color of balls: 
+						<select id="colorsSelect">
+						  <option value="green">Green</option>
+						  <option value="yellow">Yellow</option>
+						  <option value="red">Red</option>
+						</select>
+					<input type="submit" value="Submit" id="submit">
+					<div id="pendulums_canvas" class="canvas_div">
+						<canvas id="canvas1" width="700" height="800"
+						  ></canvas>
 
-	<div id="container">
-		<div id="buttons_div">
-			<button id="btn_pendulum">Pendulum</button>
-			<br>
-			<button id="btn_cradle">Cradle</button>
-		</div>
-
-		<div id="canvases_container">
-			<div id="pendulums_canvas" class="canvas_div">
-					<canvas id="canvas1" width="500" height="500"
-					  ></canvas>
-			
-			<div id="pendulumsDiv">
-				Number of balls: <input type="number" name="amount_of_balls" id="amount_of_balls"><br>
-				Color of balls: 
-					<select id="colorsSelect">
-					  <option value="green">Green</option>
-					  <option value="yellow">Yellow</option>
-					  <option value="red">Red</option>
-					</select>
-				<input type="submit" value="Submit" id="submit">
-			</div>
-		</div>
-		<div id="cradle_canvas" class="canvas_div">
-					<button id="cradle1">1</button>
-					<button id="cradle2">2 left</button>
-				<canvas id="canvas2" width="500" height="500"></canvas>
-		</div>
-
-
-		</div>	
-
-
-	</div>
-
+					</div>
+				</div>
+				<div id="cradle_canvas" class="canvas_div">
+					<div id="cradleButtons">
+						<h2>Newton's Cradle</h2>
+						<button id="cradle1">Version 1</button>
+						<button id="cradle2">Version 2</button>
+					</div>
+					<canvas id="canvas2" width="700" height="800"></canvas>
+				</div>
+			</div>	 <!-- end canvases container -->
+		</div> <!-- end container -->
 	</body>
 </html>
