@@ -1,26 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
-<head>
-	<meta HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=UTF-8">
-	<title>Pendulums</title>
-	<script language="javascript" type="text/javascript" src="jquery.js"></script>
-	<script language="javascript" type="text/javascript" src="pendulums.js"></script>
-	<script language="javascript" type="text/javascript" src="ball.js"></script>
-	<script language="javascript" type="text/javascript" src="utils.js"></script>
-</head>
-<body>
+	<head>
+		<title>Compy=uter Modelling - Pendulum Waves and Newton's Cradle</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="pendulums.js"></script>
+		<script language="javascript" type="text/javascript" src="classes/ball.js"></script>
+		<script language="javascript" type="text/javascript" src="classes/utils.js"></script>
+	</head>
+	<body>
 
-	<canvas id="canvas1" width="640" height="480"
-	   style="border:1px solid #000000;"></canvas>
+		<canvas id="canvas1" width="640" height="480"
+		   style="border:1px solid #000000;"></canvas>
 
-	<div id="pendulumsDiv">
-		Number of balls<input type="number" name="amount_of_balls" id="amount_of_balls"><br>
-		Frequency<input type="number" name="firstFrequency" id="firstFrequency"><br>
-		<input type="submit" value="Submit" id="submit">
-	</div>
+		<div id="pendulumsDiv">
+			Number of balls<input type="number" name="amount_of_balls" id="amount_of_balls"><br>
+			Frequency<input type="number" name="firstFrequency" id="firstFrequency"><br>
+			<input type="submit" value="Submit" id="submit">
+		</div>
 
-	<canvas id="canvas2" width="640" height="480"
-	   style="border:1px solid #000000;"></canvas>
+		<canvas id="canvas2" width="640" height="480"
+		   style="border:1px solid #000000;"></canvas>
 
-</body>
+	</body>
 </html>
