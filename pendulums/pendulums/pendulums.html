@@ -7,20 +7,38 @@
 	<script language="javascript" type="text/javascript" src="pendulums.js"></script>
 	<script language="javascript" type="text/javascript" src="ball.js"></script>
 	<script language="javascript" type="text/javascript" src="utils.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css" media="all">
+
 </head>
 <body>
 
-	<canvas id="canvas1" width="640" height="480"
-	   style="border:1px solid #000000;"></canvas>
+	<div id="container">
+		<div id="buttons_div">
+			<button id="btn_pendulum">Pendulum</button>
+			<br>
+			<button id="btn_cradle">Cradle</button>
+		</div>
 
-	<div id="pendulumsDiv">
-		Number of balls<input type="number" name="amount_of_balls" id="amount_of_balls"><br>
-		Frequency<input type="number" name="firstFrequency" id="firstFrequency"><br>
-		<input type="submit" value="Submit" id="submit">
+		<div id="canvases_container">
+			<div id="pendulums_canvas" class="canvas_div">
+					<canvas id="canvas1" width="500" height="500"
+					  ></canvas>
+			</div>
+			<div id="pendulumsDiv">
+				Number of balls<input type="number" name="amount_of_balls" id="amount_of_balls"><br>
+				Frequency<input type="number" name="firstFrequency" id="firstFrequency"><br>
+				<input type="submit" value="Submit" id="submit">
+			</div>
+
+			<div id="cradle_canvas" class="canvas_div">
+				<canvas id="canvas2" width="500" height="500"></canvas>
+			</div>
+
+
+		</div>	
+
+
 	</div>
-
-	<canvas id="canvas2" width="640" height="480"
-	   style="border:1px solid #000000;"></canvas>
 
 </body>
 </html>

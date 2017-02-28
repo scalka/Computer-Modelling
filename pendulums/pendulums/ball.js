@@ -40,5 +40,5 @@ Ball.prototype.getBounds = function () {
     y: this.y - this.radius,
     width: this.radius * 2,
     height: this.radius * 2
-  };
+    };
   };

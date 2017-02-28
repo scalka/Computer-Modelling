@@ -1,25 +1,50 @@
 // run the Pendulums after the web page will have been loaded
 $(document).ready(function() {
-  //assign the canvas element  to a variable using the DOM
+
+    var pendulums_canvas = document.getElementById("pendulums_canvas");
+    var cradle_canvas = document.getElementById("cradle_canvas");
+
+    cradle_canvas.style.display = "none";
+
+    var btn_pendulum = document.getElementById("btn_pendulum");
+    btn_pendulum.addEventListener('click', function(){
+        cradle_canvas.style.display = "none";
+        pendulums_canvas.style.display = "block";
+    });
+
+    var btn_cradle = document.getElementById("btn_cradle");
+    btn_cradle.addEventListener('click', function(){
+        cradle_canvas.style.display = "block";
+        pendulums_canvas.style.display = "none";
+    });
+
+    //assign the canvas element  to a variable using the DOM
     var canvas1 = document.getElementById("canvas1");
     //assign the 2d rendering context (what we draw on) to a variable
-    var context = canvas1.getContext("2d");
-    Pendulums.context = context;
+    var context1 = canvas1.getContext("2d");
+    Pendulums.context = context1;
     Pendulums.run();
 
     var submit = document.getElementById('submit');
         submit.addEventListener('click', function() {
-        Pendulums.numBalls = document.getElementById('amount_of_balls').value;
-        Pendulums.firstFrequency = document.getElementById('firstFrequency').value;
-        Pendulums.run();
+        if (document.getElementById('amount_of_balls').value ){
+            Pendulums.numBalls = document.getElementById('amount_of_balls').value;
+        }
+        if(document.getElementById('firstFrequency').value){
+            Pendulums.firstFrequency = document.getElementById('firstFrequency').value;
+        }
+
+        Pendulums.reset();
     });
 
 
     var canvas2 = document.getElementById("canvas2");
     //assign the 2d rendering context (what we draw on) to a variable
     var context2 = canvas2.getContext("2d");
+    Cradle.canvas = canvas2;
     Cradle.context = context2;
     Cradle.run();
+
 
 
 
@@ -37,29 +62,32 @@ Pendulums = {
      startTime: 0,
      balls: [],
      context: 0,
-     requestAnimationFrame: window.requestAnimationFrame,
 
      // the Pendulums init method
      run: function() {
-      //frequency
-      var d = 2.0 * Math.PI / 60000.0;
-      // init variables in a loop, putting balls in place
-      for (var i = 0; i < this.numBalls; i++) {
-           // -------- new ball
-            this.balls.push(new Ball(10));
-            this.balls[i].x = 50;
-            this.balls[i].y += 200 + i*10 ;
-            this.balls[i].frequency = d * (this.firstFrequency + i);
-            this.balls[i].draw(this.context);
-      }
+        console.log("run");
+          //frequency
+          var d = 2.0 * Math.PI / 60000.0;
+          
+          // init variables in a loop, putting balls in place
+          for (var i = 0; i < this.numBalls; i++) {
+               // -------- new ball
+                this.balls.push(new Ball(10));
+                this.balls[i].x = 50;
+                this.balls[i].y = 200 + i*10 ;
+                this.balls[i].frequency = d * (this.firstFrequency + i);
+                this.balls[i].draw(this.context);
+          }
 
-      // get the starting time
-      this.startTime = new Date().getTime();
-      // start timer
-      window.setInterval("Pendulums.actualMove()", 30);
+          // get the starting time
+          this.startTime = new Date().getTime();
+          console.log(this.startTime);
+          // start timer
+          window.setInterval("Pendulums.actualMove()", 30);
      },
      // the Pendulums main method, started every 30 milliseconds
      actualMove: function() {
+        console.log("actualMove");
         this.context.clearRect(0, 0, 900, 900);
         // get the actual time
         var time = new Date().getTime() - this.startTime;
@@ -78,8 +106,12 @@ Pendulums = {
              this.context.moveTo(100,0);
              this.context.lineTo(this.balls[i].x, this.balls[i].y);
              this.context.stroke();
-        }
-     }
+            }
+    },
+    reset: function(){
+            this.context.clearRect(0, 0, 900, 900);
+            var newPend = Pendulums.run();
+    }
 
 
 }
@@ -97,6 +129,7 @@ Cradle = {
      startTime: 0,
      balls: [],
      context: 0,
+     canvas: 0,
      tPos: 0,
      angle: 30,
      xPos: 0,
@@ -104,7 +137,7 @@ Cradle = {
      radius: 100,
      amplitude: 50,
 
-     spring: 0.03,
+     spring: 0.1,
      friction: 0.95,
      targetX: 320,
      vx: 0,
@@ -120,7 +153,7 @@ Cradle = {
             this.balls[i].y = 300;
 
             this.balls[i].lineX = this.balls[i].x;
-            this.balls[i].lineY = this.balls[i].y - 200;
+            this.balls[i].lineY = this.balls[i].y - 300;
             this.balls[i].targetX = this.balls[i].x - 50;
             this.balls[i].frequency = d * (this.firstFrequency + i);
             
@@ -139,6 +172,7 @@ Cradle = {
      },
      // the Pendulums main method, started every 30 milliseconds
      animate: function() {
+
         //for balls[]
         this.context.clearRect(0, 0, 900, 900);
         var time = new Date().getTime() - this.startTime;
@@ -150,22 +184,20 @@ Cradle = {
                 this.vx += ax;
                 this.vx *= this.friction;
 
-                
-                
-                    
-                    
-                   // this.balls[4].x += this.vx;
-                    this.balls[4].draw(this.context);
+                var vy = M
+                                   
                 if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
-                  console.log("last ball");
+                  //console.log("last ball");
                   this.balls[4].x += this.vx;
+                  this.balls[4].y -= this.vx;
                   this.balls[0].x += 0;
                   
 
                 }
                 if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
-                  console.log("first ball");
-                  this.balls[0].x += this.vx;
+                  //console.log("first ball");
+                  this.balls[0].x += this.vx ;
+                  this.balls[0].y += Math.cos(this.vx);
                   this.balls[4].x += 0;
                   
                 }
