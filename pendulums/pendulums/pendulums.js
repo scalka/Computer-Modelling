@@ -1,3 +1,8 @@
+var green = ' #3BAC50';
+var red = '#e1465d';
+var yellow = '#FFBF00';
+
+
 // run the Pendulums after the web page will have been loaded
 $(document).ready(function() {
 
@@ -30,8 +35,14 @@ $(document).ready(function() {
         if (document.getElementById('amount_of_balls').value ){
             Pendulums.numBalls = document.getElementById('amount_of_balls').value;
         }
-        if(document.getElementById('firstFrequency').value){
-            Pendulums.firstFrequency = document.getElementById('firstFrequency').value;
+        var colorValue = document.getElementById('colorsSelect').value;
+        if(colorValue === 'green'){
+            Pendulums.color = green;
+        } else if (colorValue === 'yellow'){
+            Pendulums.color = yellow;
+        }
+         else if (colorValue === 'red'){
+            Pendulums.color = red;
         }
 
         Pendulums.reset();
@@ -41,14 +52,25 @@ $(document).ready(function() {
     var canvas2 = document.getElementById("canvas2");
     //assign the 2d rendering context (what we draw on) to a variable
     var context2 = canvas2.getContext("2d");
+
+    var cradle1 = document.getElementById("cradle1");
+    var cradle2 = document.getElementById("cradle2");
+
+    
     Cradle.canvas = canvas2;
     Cradle.context = context2;
-    Cradle.run();
-
-
-
+    cradle1.addEventListener('click', function(){
+        Cradle.option = 1;
+        Cradle.run();
+    });
+    cradle2.addEventListener('click', function(){
+        Cradle.option = 2;
+        Cradle.run();
+    });
 
 });
+
+
 
 // the Pendulums object
 Pendulums = {
@@ -62,6 +84,7 @@ Pendulums = {
      startTime: 0,
      balls: [],
      context: 0,
+     color: green,
 
      // the Pendulums init method
      run: function() {
@@ -73,6 +96,7 @@ Pendulums = {
           for (var i = 0; i < this.numBalls; i++) {
                // -------- new ball
                 this.balls.push(new Ball(10));
+                this.balls[i].color = this.color;
                 this.balls[i].x = 50;
                 this.balls[i].y = 200 + i*10 ;
                 this.balls[i].frequency = d * (this.firstFrequency + i);
@@ -81,13 +105,11 @@ Pendulums = {
 
           // get the starting time
           this.startTime = new Date().getTime();
-          console.log(this.startTime);
           // start timer
           window.setInterval("Pendulums.actualMove()", 30);
      },
      // the Pendulums main method, started every 30 milliseconds
      actualMove: function() {
-        console.log("actualMove");
         this.context.clearRect(0, 0, 900, 900);
         // get the actual time
         var time = new Date().getTime() - this.startTime;
@@ -134,13 +156,15 @@ Cradle = {
      angle: 30,
      xPos: 0,
      yPos: 0,
-     radius: 100,
+     radius: 20,
      amplitude: 50,
 
      spring: 0.1,
      friction: 0.95,
      targetX: 320,
      vx: 0,
+     cradleVersion: 1,
+
 
      run: function() {
         //frequency
@@ -165,6 +189,7 @@ Cradle = {
             this.context.lineTo(this.balls[i].x , this.balls[i].y - 20);
             this.context.stroke();
       }
+
       // get the starting time
       this.startTime = new Date().getTime();
       // start timer
@@ -172,63 +197,117 @@ Cradle = {
      },
      // the Pendulums main method, started every 30 milliseconds
      animate: function() {
-
         //for balls[]
         this.context.clearRect(0, 0, 900, 900);
         var time = new Date().getTime() - this.startTime;
 
-                var d = 2.0 * Math.PI / 60000.0;
-                var dx = Math.cos( d * time * 10);
-                var ax = dx * this.spring;
+        var angle = 45;
+        var amplitude = 50;
+        var d = 2.0 * Math.PI / 60000.0;
+        var dx = Math.cos( d * time * 10);
+        var ax = dx * this.spring;
 
-                this.vx += ax;
-                this.vx *= this.friction;
+        this.vx += ax;
+        this.vx *= this.friction;
+console.log(this.vx);
 
-                var vy = M
-                                   
+        switch(this.option) {
+            case 1:
                 if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
                   //console.log("last ball");
                   this.balls[4].x += this.vx;
-                  this.balls[4].y -= this.vx;
                   this.balls[0].x += 0;
-                  
-
                 }
                 if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
                   //console.log("first ball");
                   this.balls[0].x += this.vx ;
-                  this.balls[0].y += Math.cos(this.vx);
-                  this.balls[4].x += 0;
-                  
+                  this.balls[4].x += 0;  
                 }
+                break;
+            case 2:
+                if (utils.intersects(this.balls[1].getBounds(),  this.balls[2].getBounds())) {
+                  //console.log("last ball");
+                  this.balls[0].x += this.vx;
+                  this.balls[1].x += this.vx;
+                  this.balls[2].x += this.vx;
+                  this.balls[3].x += 0;
+                  this.balls[4].x += 0;
 
-                this.balls[0].draw(this.context);
-                this.balls[4].draw(this.context);
+                  this.balls[0].y += this.vx * 0.2;
+                  this.balls[1].y += this.vx * 0.2;
+                  this.balls[2].y += this.vx * 0.2;
+            
+                }
+                if (utils.intersects(this.balls[2].getBounds(),  this.balls[3].getBounds())){
+                  this.balls[0].x += 0;
+                  this.balls[1].x += 0;
+                  this.balls[2].x += this.vx;
+                  this.balls[3].x += this.vx;
+                  this.balls[4].x += this.vx;
 
-                this.balls[1].draw(this.context);
-                this.balls[2].draw(this.context);
-                this.balls[3].draw(this.context);
+                  this.balls[2].y -= this.vx * 0.2;
+                  this.balls[3].y -= this.vx * 0.2;
+                  this.balls[4].y -= this.vx * 0.2;
+                }
+                break;
+            default:
+                if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
+                  //console.log("last ball");
+                  this.balls[4].x += this.vx;
+                  this.balls[0].x += 0;
+                }
+                if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
+                  //console.log("first ball");
+                  this.balls[0].x += this.vx ;
+                  this.balls[4].x += 0;  
+                }
+        }
+                           
+        this.balls[0].draw(this.context);
+        this.balls[4].draw(this.context);
 
-                this.context.beginPath();
-                    this.context.moveTo(this.balls[4].lineX, this.balls[4].lineY);
-                    this.context.lineTo(this.balls[4].x , this.balls[4].y - 20);
-                    this.context.stroke();
-                this.context.beginPath();
-                    this.context.moveTo(this.balls[0].lineX, this.balls[0].lineY);
-                    this.context.lineTo(this.balls[0].x , this.balls[0].y - 20);
-                    this.context.stroke();
-                this.context.beginPath();
-                    this.context.moveTo(this.balls[1].lineX, this.balls[1].lineY);
-                    this.context.lineTo(this.balls[1].x , this.balls[1].y - 20);
-                    this.context.stroke();
-                this.context.beginPath();
-                    this.context.moveTo(this.balls[2].lineX, this.balls[2].lineY);
-                    this.context.lineTo(this.balls[2].x , this.balls[2].y - 20);
-                    this.context.stroke();
-                this.context.beginPath();
-                    this.context.moveTo(this.balls[3].lineX, this.balls[3].lineY);
-                    this.context.lineTo(this.balls[3].x , this.balls[3].y - 20);
-                    this.context.stroke();
+        this.balls[1].draw(this.context);
+        this.balls[2].draw(this.context);
+        this.balls[3].draw(this.context);
+
+
+
+
+/*        this.canvas.addEventListener('click', function(e){
+            
+            var clickedX = e.pageX - this.offsetLeft;
+            var clickedY = e.pageY - this.offsetTop;
+            for (var i = 0; i < 5; i++){
+                 if (clickedX < this.balls[i].x + this.radius && clickedX > this.balls[i].x - this.radius && clickedY > this.balls[i].y - this.radius && clickedY <this.balls[i].y + this.radius) {
+                    console.log("click" + i );
+                }       
+                console.log(  this.balls[2]);
+            }
+        });*/
+
+        this.context.beginPath();
+            this.context.moveTo(this.balls[4].lineX, this.balls[4].lineY);
+            this.context.lineTo(this.balls[4].x , this.balls[4].y - 20);
+            this.context.stroke();
+        this.context.beginPath();
+            this.context.moveTo(this.balls[0].lineX, this.balls[0].lineY);
+            this.context.lineTo(this.balls[0].x , this.balls[0].y - 20);
+            this.context.stroke();
+        this.context.beginPath();
+            this.context.moveTo(this.balls[1].lineX, this.balls[1].lineY);
+            this.context.lineTo(this.balls[1].x , this.balls[1].y - 20);
+            this.context.stroke();
+        this.context.beginPath();
+            this.context.moveTo(this.balls[2].lineX, this.balls[2].lineY);
+            this.context.lineTo(this.balls[2].x , this.balls[2].y - 20);
+            this.context.stroke();
+        this.context.beginPath();
+            this.context.moveTo(this.balls[3].lineX, this.balls[3].lineY);
+            this.context.lineTo(this.balls[3].x , this.balls[3].y - 20);
+            this.context.stroke();
+
+
+
 
      }
 }

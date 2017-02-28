@@ -1,12 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html>
 <html>
+
 <head>
-	<meta HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=UTF-8">
-	<title>Pendulums</title>
-	<script language="javascript" type="text/javascript" src="jquery.js"></script>
-	<script language="javascript" type="text/javascript" src="pendulums.js"></script>
-	<script language="javascript" type="text/javascript" src="ball.js"></script>
-	<script language="javascript" type="text/javascript" src="utils.js"></script>
+	<title>Compy=uter Modelling - Pendulum Waves and Newton's Cradle</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script language="javascript" type="text/javascript" src="pendulums.js"></script>
+		<script language="javascript" type="text/javascript" src="classes/ball.js"></script>
+		<script language="javascript" type="text/javascript" src="classes/utils.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css" media="all">
 
 </head>
@@ -23,16 +23,23 @@
 			<div id="pendulums_canvas" class="canvas_div">
 					<canvas id="canvas1" width="500" height="500"
 					  ></canvas>
-			</div>
+			
 			<div id="pendulumsDiv">
-				Number of balls<input type="number" name="amount_of_balls" id="amount_of_balls"><br>
-				Frequency<input type="number" name="firstFrequency" id="firstFrequency"><br>
+				Number of balls: <input type="number" name="amount_of_balls" id="amount_of_balls"><br>
+				Color of balls: 
+					<select id="colorsSelect">
+					  <option value="green">Green</option>
+					  <option value="yellow">Yellow</option>
+					  <option value="red">Red</option>
+					</select>
 				<input type="submit" value="Submit" id="submit">
 			</div>
-
-			<div id="cradle_canvas" class="canvas_div">
+		</div>
+		<div id="cradle_canvas" class="canvas_div">
+					<button id="cradle1">1</button>
+					<button id="cradle2">2 left</button>
 				<canvas id="canvas2" width="500" height="500"></canvas>
-			</div>
+		</div>
 
 
 		</div>	
@@ -40,5 +47,5 @@
 
 	</div>
 
-</body>
+	</body>
 </html>
