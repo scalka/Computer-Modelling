@@ -1,3 +1,4 @@
+/*Ball object*/
 function Ball (radius, color) {
   if (radius === undefined) { radius = 40; }
   if (color === undefined) { color = "#ff9800"; }

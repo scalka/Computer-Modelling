@@ -60,12 +60,12 @@ $(document).ready(function() {
     Cradle.context = context2;
     //buttons to run the animations 
     cradle1.addEventListener('click', function(){
-        Cradle.reset();
         Cradle.option = 1;
+        Cradle.run();
     });
     cradle2.addEventListener('click', function(){
-        Cradle.reset();
         Cradle.option = 2;
+        Cradle.run();
     });
 });
 
@@ -75,6 +75,7 @@ Pendulums = {
      numBalls: 15,
      //51 oscillations in 60 secods period
      firstFrequency: 51,
+     //lower balls has higher frequencies
      frequencies: [],
      startTime: 0,
      balls: [],
@@ -91,6 +92,7 @@ Pendulums = {
                 this.balls[i].color = this.color;
                 this.balls[i].x = 0;
                 this.balls[i].y = 200 + i*15 ;
+                //calculating frequency difference = balls are moving out of phase
                 this.balls[i].frequency = d * (this.firstFrequency + i);
                 this.balls[i].draw(this.context);
           }
@@ -107,7 +109,7 @@ Pendulums = {
         //for each ball change x value 
         for (var i = 0; i < this.numBalls; i++) {
              var cos = Math.cos( time * this.balls[i].frequency );
-             // * 50  amplitude  how far left/right they go
+             // * 70  amplitude  how far left/right they go
              //-cos        - cos position goes minus so we reverse it so it starts going right
              this.balls[i].x = Math.round(-cos * 70 + 200);
              this.balls[i].draw(this.context);
@@ -140,8 +142,10 @@ Cradle = {
      vx: 0, // velocity
      cradleVersion: 1,
      ax: 0, // acceleration
+     mass: 10,
 
      run: function() {
+        this.vx = 0;
         // init variables in a loop, putting balls in place
         for (var i = 0; i < this.numBalls; i++) { 
             //placing new ball on the canvas
@@ -164,14 +168,15 @@ Cradle = {
         // start timer
         window.setInterval("Cradle.animate()", 30);
      },
-     // the Pendulums main method, started every 30 milliseconds
+     // the Cradle main method, started every 30 milliseconds
      animate: function() {
         this.context.clearRect(0, 0, 900, 900);
         var time = new Date().getTime() - this.startTime;
-        var d = 2.0 * Math.PI / 60000.0;
-        this.ax = Math.cos( d * time * 10) * this.spring;
+        var period = 2.0 * Math.PI / 30000.0;
+        this.ax = Math.cos( period * time * 10) * this.spring;
         this.vx += this.ax;
         this.vx *= this.friction;
+
         //drawing balls depending on cradle's option selected
         switch(this.option) {
             //first and last balls are moving
@@ -179,14 +184,13 @@ Cradle = {
                 //values for x and y when first ball is moving
                 if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
                   this.balls[4].x += this.vx;
-                  this.balls[4].x += 0;
+
                   this.balls[4].y -= this.vx * 0.2;
                 }
                 //values for x and y when last ball is moving
                 if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
                   //console.log("first ball");
                   this.balls[0].x += this.vx ;
-                  this.balls[4].x += 0;  
 
                   this.balls[0].y += this.vx * 0.2;
                 }
@@ -198,8 +202,6 @@ Cradle = {
                   this.balls[0].x += this.vx;
                   this.balls[1].x += this.vx;
                   this.balls[2].x += this.vx;
-                  this.balls[3].x += 0;
-                  this.balls[4].x += 0;
 
                   this.balls[0].y += this.vx * 0.2;
                   this.balls[1].y += this.vx * 0.2;
@@ -208,8 +210,6 @@ Cradle = {
                 }
                 //values for x and y when right side balls is moving
                 if (utils.intersects(this.balls[2].getBounds(),  this.balls[3].getBounds())){
-                  this.balls[0].x += 0;
-                  this.balls[1].x += 0;
                   this.balls[2].x += this.vx;
                   this.balls[3].x += this.vx;
                   this.balls[4].x += this.vx;
@@ -220,16 +220,7 @@ Cradle = {
                 }
                 break;
             default:
-                if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
-                  //console.log("last ball");
-                  this.balls[4].x += this.vx;
-                  this.balls[0].x += 0;
-                }
-                if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
-                  //console.log("first ball");
-                  this.balls[0].x += this.vx ;
-                  this.balls[4].x += 0;  
-                }
+                console.log("default");
         }                   
         this.balls[0].draw(this.context);
         this.balls[1].draw(this.context);
@@ -238,30 +229,12 @@ Cradle = {
         this.balls[4].draw(this.context);
         //drawing strings
         this.context.strokeStyle="#565656";
-        this.context.beginPath();
-            this.context.moveTo(this.balls[4].lineX, this.balls[4].lineY);
-            this.context.lineTo(this.balls[4].x , this.balls[4].y - 20);
+        //drawing the strings
+        for (var i=0; i<5; i++ ){
+            this.context.beginPath();
+            this.context.moveTo(this.balls[i].lineX, this.balls[i].lineY);
+            this.context.lineTo(this.balls[i].x , this.balls[i].y - 20);
             this.context.stroke();
-        this.context.beginPath();
-            this.context.moveTo(this.balls[0].lineX, this.balls[0].lineY);
-            this.context.lineTo(this.balls[0].x , this.balls[0].y - 20);
-            this.context.stroke();
-        this.context.beginPath();
-            this.context.moveTo(this.balls[1].lineX, this.balls[1].lineY);
-            this.context.lineTo(this.balls[1].x , this.balls[1].y - 20);
-            this.context.stroke();
-        this.context.beginPath();
-            this.context.moveTo(this.balls[2].lineX, this.balls[2].lineY);
-            this.context.lineTo(this.balls[2].x , this.balls[2].y - 20);
-            this.context.stroke();
-        this.context.beginPath();
-            this.context.moveTo(this.balls[3].lineX, this.balls[3].lineY);
-            this.context.lineTo(this.balls[3].x , this.balls[3].y - 20);
-            this.context.stroke();
-     },
-     //reset animation and values
-    reset: function(){
-            //this.context.clearRect(0, 0, 900, 900);
-            var newCradle = Cradle.run();
-    }
+        }
+     }
 }
