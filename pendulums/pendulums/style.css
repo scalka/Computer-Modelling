@@ -40,3 +40,10 @@ button {
 	color: white;
 	margin: 10px; 
 }
+#canvas1{
+	margin-top: 10px;
+	border-top: 1px solid #565656;
+}
+#canvas2{
+	border-top: 1px solid #565656;
+}

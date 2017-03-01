@@ -138,14 +138,14 @@ Cradle = {
      radius: 20,
      spring: 0.1,
      friction: 0.95,
-     targetX: 320,
      vx: 0, // velocity
      cradleVersion: 1,
      ax: 0, // acceleration
      mass: 10,
+     time: 0,
 
      run: function() {
-        this.vx = 0;
+
         // init variables in a loop, putting balls in place
         for (var i = 0; i < this.numBalls; i++) { 
             //placing new ball on the canvas
@@ -173,7 +173,8 @@ Cradle = {
         this.context.clearRect(0, 0, 900, 900);
         var time = new Date().getTime() - this.startTime;
         var period = 2.0 * Math.PI / 30000.0;
-        this.ax = Math.cos( period * time * 10) * this.spring;
+
+        this.ax = Math.cos( time * period  * 10) * this.spring;
         this.vx += this.ax;
         this.vx *= this.friction;
 
@@ -222,15 +223,12 @@ Cradle = {
             default:
                 console.log("default");
         }                   
-        this.balls[0].draw(this.context);
-        this.balls[1].draw(this.context);
-        this.balls[2].draw(this.context);
-        this.balls[3].draw(this.context);
-        this.balls[4].draw(this.context);
-        //drawing strings
+        //color of strings
         this.context.strokeStyle="#565656";
+        //drawing balls and strings
         //drawing the strings
         for (var i=0; i<5; i++ ){
+            this.balls[i].draw(this.context);
             this.context.beginPath();
             this.context.moveTo(this.balls[i].lineX, this.balls[i].lineY);
             this.context.lineTo(this.balls[i].x , this.balls[i].y - 20);
