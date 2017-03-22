@@ -1,0 +1,73 @@
+<!-- 
+ -->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>prac12q1 projectiles</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="./classes/ball.js"></script> 
+    <script type="text/javascript">
+
+
+	$(document).ready(function() {
+		//assign the canvas element  to a variable using the DOM
+		var canvas = document.getElementById("myCanvas");
+		//assign the 2d rendering context (what we draw on) to a variable
+		var context = canvas.getContext("2d");
+
+		var canvasWidth = canvas.width;
+		var canvasHeight = canvas.height;
+				
+		var gravity = -9.8;
+		var speed = 75;
+		var angle = 60;
+
+		var t = 0.0001;
+
+		var ux, uy, sx, sy;
+
+
+		ball = new Ball(10);
+		ball.x = 50;
+		ball.y = 480;
+
+		function animate () {
+			context.clearRect(0, 0, canvasWidth, canvasHeight);
+			window.requestAnimationFrame(animate, canvas);
+			//console.log("animate");
+			ux = speed * Math.sin(angle*Math.PI/180);
+			uy = speed * Math.cos(angle*Math.PI/180);
+			sx = ux * t;
+			sy = uy * t + 0.5 * gravity * Math.pow(t, 2);
+
+			/*console.log(vx + "  " + vy);
+			console.log(sx);*/
+
+			ball.x = sx;
+
+			ball.y = canvasHeight - sy;
+
+			t++;
+			console.log(ball.y);
+			ball.draw(context);
+		};
+
+		window.requestAnimationFrame(animate, canvas);
+	
+    });
+	
+		</script>
+	</head>  
+ <body>
+	<header>
+	</header>
+	  <canvas id="myCanvas" width="640" height="480"
+	   style="border:1px solid #000000;" >
+	  </canvas>
+	  <input type="submit" value="Submit" id="submit">
+
+  </body>
+</html>
+
+

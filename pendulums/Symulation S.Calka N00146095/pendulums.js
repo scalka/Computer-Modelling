@@ -85,7 +85,7 @@ Pendulums = {
      // the Pendulums init method
      run: function() {
           //frequency
-          var d = 2.0 * Math.PI / 60000.0;
+          var period = 2.0 * Math.PI / 60000.0;
           // init variables in a loop, putting balls in place
           for (var i = 0; i < this.numBalls; i++) {
                 this.balls.push(new Ball(15));
@@ -93,7 +93,7 @@ Pendulums = {
                 this.balls[i].x = 0;
                 this.balls[i].y = 200 + i*15 ;
                 //calculating frequency difference = balls are moving out of phase
-                this.balls[i].frequency = d * (this.firstFrequency + i);
+                this.balls[i].frequency = period * (this.firstFrequency + i);
                 this.balls[i].draw(this.context);
           }
           // get the starting time
@@ -113,7 +113,7 @@ Pendulums = {
              //-cos        - cos position goes minus so we reverse it so it starts going right
              this.balls[i].x = Math.round(-cos * 70 + 200);
              this.balls[i].draw(this.context);
-             //strings which "holds" the balls
+             //strings which "hold" the balls
              this.context.beginPath();
              this.context.moveTo(200,0);
              this.context.lineTo(this.balls[i].x, this.balls[i].y);
@@ -152,7 +152,7 @@ Cradle = {
             this.balls.push(new Ball(20));
             this.balls[i].x = 200 + 40*i;
             this.balls[i].y = 300;
-            //to be used later while drawing the strings which "holds" balls
+            //to be used later while drawing the strings which "hold" balls
             this.balls[i].lineX = this.balls[i].x;
             this.balls[i].lineY = this.balls[i].y - 300;
             //draw balls
@@ -177,22 +177,23 @@ Cradle = {
         this.ax = Math.cos( time * period  * 10) * this.spring;
         this.vx += this.ax;
         this.vx *= this.friction;
-
         //drawing balls depending on cradle's option selected
+        //switch statement checks which balls are touching each other and then according amount of balls is 
+        //pushed up on the other side
+        //utils.js - taken from Lamberta "html5 animation" examples 
+        //utils.intersects is geting bounds of balls and checking if they intersect
         switch(this.option) {
             //first and last balls are moving
             case 1:
                 //values for x and y when first ball is moving
                 if (utils.intersects(this.balls[0].getBounds(),  this.balls[1].getBounds())) {
                   this.balls[4].x += this.vx;
-
                   this.balls[4].y -= this.vx * 0.2;
                 }
                 //values for x and y when last ball is moving
                 if (utils.intersects(this.balls[3].getBounds(),  this.balls[4].getBounds())){
                   //console.log("first ball");
                   this.balls[0].x += this.vx ;
-
                   this.balls[0].y += this.vx * 0.2;
                 }
                 break;
